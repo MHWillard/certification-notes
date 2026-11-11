@@ -1,0 +1,44 @@
+Q: Who controls the data is called:
+A: Data ownership
+
+Q: Where data is stored is called:
+A: Data residency
+
+Q: What laws govern data us called:
+A: Data sovereignty
+
+Q: Laws requiring data to stay in the country is called:
+A: Data localization
+
+Q: Technical choice to keep data near users for performance is called:
+A: Data locality
+
+Q: Identifying internal data and understanding the impact of security breaches is called:
+A: Data classification
+
+Q: Litigation, contractual, and regulatory are types of:
+A: Data retention holds
+
+Q: What principle dictates that users should be given the minimum level of access needed for their tasks?
+A: Principle of Least Privilege
+
+Q: What principle dictates that no devices should be trusted, even internal ones, without authentication?
+A: Zero Trust Cloud Security
+
+Q: When you remove unnecessary components in a system, and use the most current versions of what remains, what type of security measure is this?
+A: Hardening
+
+Q: What type of encryption uses one key?
+A: Symmetric encryption
+
+Q: What type of encryption uses a seperate key for both sender and receiver?
+A: Asymmetric encryption
+
+Q: What type of cryptographic method uses hash functions?
+A: Hash cryptography
+
+Q: Authentication information such as passwords, SSH keys, certificate keys, and API tokens are called:
+A: Secrets
+
+Q: Which type of gateway controls traffic, authentication, rate limiting, and logging activity?
+A: API gateways

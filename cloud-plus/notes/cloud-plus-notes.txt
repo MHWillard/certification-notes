@@ -1,0 +1,1292 @@
+PROVISION CLOUD RESOURCES
+
+Compute Respiurces: 
+-resource allocation: cpu, memory, storage, networking
+-virtualization: virtual CPU and GPU (vCPU, vGPU)
+-resource roles: compute-intensive, data-intensive
+
+Manage Virtualization
+-Hypervisiors: (they create/run/mamage VMs)
+--type 1: run directly on server hardware
+-type 2: runs as app wintin server OS
+
+-Oversubscription: allocate more resources to VMs than host has available
+--usually used for multiple VMs at once
+
+Provision Compute Resources
+-preconfigured BM instances
+-select instance
+-match requirements
+-consider multi-threading
+
+**very important to know**
+Preconfigured VM instances
+-instances have CPU, GPU, memory, storage, network settings for different situations
+-like templates
+-amazon: general purpose, compute optimized, memory optimized, accelerated computing, storage optimized (input/poutpot performance), HPC optimized (high performance processors)
+
+Multi-threading? Divide tasks among multiple cores to operate simultaneously
+How to calculate vCPU? it's number of cores times number of threads
+
+Provision Graphics Processing Unit Resources
+-can offload CPU tasks to GPU, good for visual stuff like games
+-types: shared vGPUs, pass-thurough GPUs
+
+Compute Requirements
+-manage memory/CPUs, resize instances
+-GPU/graphics are OPTIONAL
+
+Storage Requirements
+-how is performance measured for storage? I/O requests measured in operations per second
+-also depends on solid state drive and hard disk drive
+-what is a bucket? a cloud storage resource
+
+Network Requirements
+-resembles on-prem networks with vm advantages like scalability, easy to modify, and cost optimization
+-VLANs, VPNs, web firewalls
+
+Deploy AWS Virtual Machine?
+-EC2 Dash -> launch instance
+-name instance
+-select OS
+-define CPU/memory
+-define settings: auth key pairs, network settings, storage requirements
+
+Hyperconvered Virtualization
+-combo CPU/memory/storage/network config into one entity
+-precompiled package/template
+-easy to deploy and maintain, can't be seperated
+
+Performance Requirements
+-performance minimums/expectations to watch out for, region
+-resource access speed, data proximity, network latency, storage i/o, DB access
+
+Coimpliance Requirements?
+-Legal
+-Regulations for industry
+-Nation specific: depends on nation
+-business rules for larger enterprises
+-local data center service requirements
+
+Securituy Requirements
+-cybersecurity attack types? DDoS, ransomware, identity theft, scams, phishing, social eningeering, leaks
+-What to protect?
+--proprietary business info, intellectual property, customermprivate data, employee private data
+
+Availability Requirements
+--needs to be available mosyt of the time and uninterrupted: customer, employee, and other services
+
+Cost Requirements
+--cost changes and resources needed to be managed on sub basis
+--can monitor with reports: resource metering, auditing
+--optimize services for costs
+--consider: capital expenditures VS operating expenses (you own it VS. you rent it)
+
+
+ASPECTS OF CLOUD MIGRATION
+moving on-prem data/apps/resources to cloud
+
+tpes of migrations?
+-on-prem to cloud
+-cloud to on-prem
+-cloud to cloud
+
+Steps for cloud-to-cloud?
+-make identity and access management IDs and permissions
+-set up VPN connection
+-configure network access requirements
+-make cloud extensions
+-install migration packages for VMs
+-test migration
+-migrate in groups and test
+
+Phases of cloud migration?
+-assessment and discovery for current systems, planning, implementation, optimize cost/performance/security
+
+Types of virtualization migrations?
+-physical to virtual P2V
+-virtual to physical V2P
+-Virtual to virtual V2V
+
+Migration phases?
+-assessment, planning, deployment, optimize
+
+General steps for VM migration tools?
+-save physical server config/data as snapshot
+-allocate resoutces to VM
+-use tool to load snapshot into VM
+
+** very important part, very testable so know this**
+Cloud migration strategies?
+-rehosting (no modification needed, take it to cloud)
+-replatforming (modify the app but not externsive redvelopment)
+-repurchasing (drop old app and replace with modern cloud ready app)
+-retiring (drop app, don't replace it)
+-refactoring (restructure/optimize existing app)
+-retaining (keep app as on-prem traditional deployment)
+-rearchitect: revise whole architecture to be cloud ready
+-hybrid: mix of the above
+
+MIGRATION CONSIDERATIONS
+
+Whato to consider for cloud migration?
+-platform compatbility-resources, storage and speed, security
+-cost: on demand vs. spot instances, scaling options
+-service availability: how many regions where it's available, uptime, redundancy
+-vendor lock-in: how is cost in money/time, planning needed to diversify and plan for future
+-compute: compontents and performance, migration, scaling, billing
+-storage: how fast and expensive it is to trasfer, how fast, type of storage, how integrity it is
+-networking: bandwidth, security, access control, IP addressing, security controls
+-mamnagement: amount of overhead, regulations, compliance, monitoring performance, monitoring cost, security
+
+Instance types for cost?
+-spot: bid on unused cloud capacity
+-dedicated: reserve physical hardware for needs
+-on-demand: flexible but more expensive than spot
+-reserved: long-term commitment for cost saviings
+
+**********
+
+COMPARING CLOUD STORAGE
+compare options anf tech for your needs and performance/cost
+
+STORAGE RESOURCES AND TECHNOLOGIES
+
+Disk types?
+-solid state drives
+-dard disk drives
+-hybrid disks
+-long-term storage
+-Elastic Block Storage: AWS divides between SSD and HDD, and replication for security/availability
+
+--when making a VM, you can select a HDD or a SSD for a disk
+
+Storage types?
+--block: Blob Storage, data divided into chunks and is expensive
+-file: file system storage, Elastic File System, individual files and inexpensive
+-object: store as objects: Blob Storage, AWS S3; broken into chunks with metadata
+
+Where are data stored in cloud? buckets
+
+Tiered Storage
+0organized in tiers for size and how frequently it's accessed, age, etc.
+
+Migrate Data To Cloud
+-file transfers across internet through direct connections, or mail physical data to the data center (Azure Databox)
+
+Performance Implications
+performance measurements to consder?
+--input/oiutput operations per second (IOPS), throughput, latency, queue depth
+
+what to look for qhen analyzing cloud storage performance?
+-average IOPS read, latency of read/write, average queue depth, peak read/write ops, disk reads and writes in bytes
+
+Storage as a Service
+--storage offered on the cloud, like onedrive, dropbox, google drive
+pros? save money, scalability, accessible, easy share/collab
+cons? security/privacy, cost, vendor lock-in, control
+
+Software-Defined Storage
+It seperates management software from storage hardware
+-key characteristics?
+--provosioning based on policy, policy mased maangement, automation
+
+policy-based management features?
+-compression: squsih data, fewerr bits in same data
+-deduplication: remove duplicates and set pointers to definite copy
+-thin provisioning: storage only reflects current amount of data even if you set bigger maximum
+-thick provisioning: maximum is defined and all of it is reserved
+-replication: duplicate data between two or more locations and kepy current for quicker access
+
+Cost Implications
+-must consider implications of cost savings solutions
+-egress fees: for when using information you stored
+-data transfer: costs
+-data requirements
+-the lifecycle of the data and how long you need it and how often it's used
+-the tiers
+-storage in different regions
+
+quotas for users? soft, hard, etc.
+
+Hyperconverged Storage Resources
+--costs of optimizing the storage for any hyperconverged resources, can vary based on that size
+
+******
+TROUBLESHOOTING DEPLOYMENT ISSUES AND COST
+remember to apply the earlier troubleshooting methodology to this as well
+question the obvious
+trust but verify/test
+
+Compatbility Problems
+-could come from virtualization settings, processor architecture, network features
+-service quotas: if past maximum value for resources, might not deply
+-API throttling: too much data pull could trip throttling for access and pulling data to control costs and bandwidth
+
+Resource Allocation Misconfiguration
+-make sure there's enough resources for cosumers that's cost effective
+-check for over/underutilized resources
+-make sure they're not paying for what they aren't using
+-check: CPU, GPU, memory, storage I/O, network allocation
+
+Instance Configuration and Performance Testing
+-test VM instances to make sure thye work and are servicable and stable and perform well
+-check for the above with a VM as wel
+
+Permissions and Privilege Misconfiguration
+PAM: Ptivilege Access Management
+IAM: identity and access management
+-access to resources is managed by user and group roles
+--need to make sure users and groups can access their authorized resources
+-make sure admin can log in with admin provileges
+-also if needed to escalate privileges
+
+Troubleshoot services and Applications
+make sure they're up to date and not deprecated
+make sure services are available
+make sure intrstructure resouces are available (CPU, memory, storage, networking)
+
+Deprecation of Functionality
+make sure tech isn't planned onbsolescense
+evolved hardware/software
+migration periods
+financial burden and technological advancement
+
+Cloud Service Outages
+-outages could cover:
+local infrastructure, data center at organization, region, CSP
+-check for full/partial outage
+-see how to mitigate future outages
+
+Regional Service Availability
+data center location will vary based on region and services available, consider infrastructure, geopolitical concerns
+
+
+
+COST CONSIDERATIONS
+need to understand sub services and iling models
+managing costs is very important
+CSPs offer tools to check this stuff
+
+Subscription Services Costs
+different types of regular-fee schedules for resources
+pay for ideneity: paying for user and organization
+cloud admins and finance departments should collab on these costs
+
+Price Calculators and Cost Analysis
+use calculators and tools from third party services to compare services for prices, since costs can change frequently and CSPs bundle things and make their own claims and obsfucate the issue with discoutns and the like
+
+Cloud Billing Models
+Four types of illing models for their instances:
+-dedicaed host with VM instance: dedicated server pay reserved for you
+-on-demand pay-as-you-go: pay for computer resources by second, no time comitment
+-reserved: long term reservation for resourcesm for cost savings
+-spot: access unsued compute capacity at any time but might not always be available, very discounted7
+
+Resource Allocation
+allocation resources have cost and proformance optimization concerns
+--things to do: resources metering
+-rightsizing? continuous process of alanyzing cloud utilization to balamce performance and cost
+-auto scaling can address this as well
+
+Resource Metering
+-services providers bill orgs based on: tracked resource utilization and access
+-orgs can customize resource configs to optimize costs
+
+Resource Tagging
+-resources can be tagged to help track for billing
+
+Rightsizing
+adjust computer capabilities of VM instance to match workfload
+baalance between over-allocation or under-allocating: have to center between them for cloud costs
+
+Troubleshoot Billing
+-implement monitoring
+-set alarms for dspending and utilization
+-consider: technical support stability, service availability, licensed, cost/billing issues
+
+
+USING VIRTUALIZATION AND DATABASES
+Virtualization
+partition physical hardware into VMs
+CSP manages hardware
+managed with hypervisor tools
+Infrastructure as a service
+--virtualization is part of cloud computing: admin does that on his own, but for cloud, you do it through an API for cloud costs
+
+Stand-Alone Virtualiation
+VMs use type 2 hypervisor, OS, server, etc. on top of the hardware OS and server (mini computers)
+containers are just apps, the engine, hosted on the OS and server
+
+Cloud-Based
+-use consoles to create/maage/remove VMs
+-define: VM name, hardware parameters, CPU, memory, stoage, networking
+-mintor VM performance and uptime
+
+Deployoing VMs in Cloud
+pretty same as with local but through dashboard
+definite cloud values, regions, auth options, metering, hardware settings
+--purposes choices: general, compute/memor/storage optimized
+--storage types: premium SSD, standard SSD, standard HDD
+--laos: OS, admin account, VM size
+
+VM Config File Templates
+Use and download templates to automate VM deployment (JSON, YAML)
+
+Clustering Virtualizations
+VMs are stand alone virtual devices
+clusters? groups of computers that work as single unit
+--each member = a node
+fault tolerannce in case one node fails and spreads workload among multiple nodes
+-offers redundancy
+
+Host Affinity
+-Affinity: VMs in same host
+anti-affinity: VMs on different hosts: fault toleralnce, more available
+-no affinity: place pods anywhere without any special requirements
+
+Hardware Pass Through
+VM can have direct exclusive to physical hardware device, hypervisor lets it pass through driver/emulation later
+-native performance, low latency, increased throughput
+-bypass options? GPU-intenseive software, storage media access, network loads balances
+
+VM Cloning
+clone snapshots of VMs current config and data; can use templates or do through CSPs
+
+VM Network Tyoes
+Overlay: abstract media/switches/routers, define logical networks without worrying about physical infrastructure
+VM networks: basic networking to VMs and can participate on physical networks
+TYPES:
+-external: allow access to host network interface card and network
+-internal: allow network access to host itself and other VMs but not external access
+-priviate: network only with other VMs but not host or beyond
+
+Typoes of Storage
+-local, network attackehed storage, storage area network
+
+
+CONTANIERIZATION
+Great for cloud-ready, scalable apps for continuous improvement
+
+Stand-Alone Containerization
+comtains everything it needs to run the app in one compqcy and portable solution; code, runtimes, libraries
+comes from container image, runs on a single OS
+
+Deploy Containers
+commands to create, destroy, start, stop, manage containers, such as the docker command
+
+Image Registries
+storage repos for container images
+useful for DevOps and CI/CD, Docker Hub and other repos, public and private
+
+Containers in the Cloud
+scalable, metered, reduced management, avavilability
+-each CSP has its own container service
+
+Container Management
+port mapping, orchestration
+storage types? ephermal storage, persistent (volumes in Docker)
+
+
+DATABASES
+
+DB Types
+relational: tables/columns and rows
+non-relational: different structured types: object, documents, blobs, key-value pairs, columnar, graph stores
+--NoSQL is flexible, easier to scale, and rapid data growth
+
+DB Deployment Options
+-self managed: internal and on own playform: get control, flexible, avoid vendor lock-in, BUT you need the skills and commitment in time and resources to maintain it
+-provider managed: easier, they maintain it, pay as you go costs, emore easily scaled, BUT vendor lock-in, more security concerns, less control
+
+Migrate DBs
+direct migration: move between providers with dam design
+cross-service: between two engines such as Oracle to Aurora
+-have to consider availability/replication during migration
+-you should migrate apps and their databases at the same time
+
+*************
+COMPREHENDING CLOUD NETWORKING
+
+CONCEPTS
+much like physical networking: connectivity between users, on-premises network and cloud components
+different virtual devices enable connectiviity: load balancer, router, firewall, vLANs
+-also services: name resultion, IP management, network management
+-have to consider security/privacy and performance requirmenets
+
+=Network Flow Diagram
+shows how data moves through network infrastructure; includes internal/edternal notes, devices and services, gateways for access
+station=>router=>firewall=> resources
+
+=Public and Private Cloud Connections
+high capaciy available secure connection
+-uses VPNs to encrypt data and protect it
+-VPN protocols for security: IPsec, SSH Secure Shell, layer 2 tunnelling protocol (common), point to point tunnelling protocol (legacy/older)
+
+=VPN Concepts
+VPN provides encrupted secure connections between users and cloud; protects them from threats and migitates them
+
+=VPN Designs
+site-to-site? from site to router, then to internet, then their VPN, to that site
+point-to-site: smaller network goes to internet, then tht goes through VPN router to site
+
+=Secure Shell (SSH)
+used to securely remotely connect to cloud VMs
+-encrypted tunnel through command line
+-standard on Linux and thus cloud VMs
+
+=Secure Sheel Key-Based Auth
+ssh-keygen; ssh copy-id {VM}; ssh {remote VM} = done in command line
+
+=IPsec Securty
+resides in network layer of OSI chart along with IP addresses
+-data must pass through layer
+=uses TCP/IP stacks
+-useful for encrypting cloud connections and VPN connections
+
+OSI Layer
+application
+presentation (file formats like JPG/PNG, mp4, etc., encryption)
+session
+transmission (TCP, UDP)
+network (IP addressing IPv4, IPv6)
+data link (MAC addresses)
+physical
+
+application
+transport
+internet
+network
+
+=Dedicated Connections
+dedicated connections for privacy instead of public
+public risks: speed, reliabbility, security
+major CSPS have their own dedicated connections (AWS DirectConnect, Azure ExpressRoute)
+
+FUNCTIONS
+helps maintain security and available and integrates with on-prem systems
+
+=Load Balancers
+they distribute workloads across multiple points like servers to help keep systems up and fast
+-app: distrubte workloads across instances, based on gateway information
+-network: work at OSI layer 4, balances conectivity base don traffic through routers and similar devices, can scale
+-gaateway: scale network appliances absed on demand, balanced through networking and instance workloads
+
+=Cloud Firewalls
+stateful? track with TCP; remembers state and login data
+stateless? no one's typically looking at it; have to be authenticated every time; great for securtiy
+
+=Web App Firewalls
+operate at layer 7 (app layer)
+apply virtual patcjhes to protect apps, and has rules criteria
+
+COMPONENTS
+
+=Switches
+layer 2 of SI, physical and virtual
+features? VLAN tagging to limit for security, port mirroring. mirror a port to look at ot, quality of service (traffic shaping)
+
+=Network Segmentation and Subnetting
+types? single network with subnets; multiple netowks configured as peers; or hub and spoke tpology
+--dividing a big network into pieces as their own mini-network in the same address space
+--on cloud: use switch between cloud and on-prem system
+good for security to isolate traffic to certain parts of network; can isolate envs like dev/test/prod or types of traffic
+
+=Microsegmentation
+segments workloads from other workloads nd their infrastructure
+happens at app level; policy driven, slexible, scalable
+visible, granular, dynamic
+
+=Routing Tables
+types? interpreting, static, dynamic
+router takes traffic and makes best route to send it out; uses a routing table to find this path; OR uses a default gateway to go to ISP in general
+
+common protocols? OSPF, EIGRP, BGP, RIP
+open shortest path first; enhanced interior gateway routing protocol; border gateway protocol
+
+=Border Gateway Protocol
+between automonomous regions, like between ISPs
+
+=Virtual Network Interface Cards
+works like regular ones; they IDs with virtual values to gain network access and connects instance to a network
+
+NETWORK SERVICES
+
+=Virtual LAN Technologies
+add layer 2 switch ports to VLANs using software rules
+isolate traffic using specific tags
+trunk? allows multiple VLANS sto travel alog one cable
+
+=Virtual Extensible LAN Settings
+similar to VLANS: tunnels between VXLANs; up to 16 mil network secments; better routing
+
+extra options inlude generic routiing encapsulation to extend, there's a Virtualization version too, better with major CSPs
+
+=Software-Defined Netwokring
+data plan, control plane
+
+=Virtual Private Clouds
+private cloud in multi-tentant environment to isolate from other tentants for security, scalable, flexible
+-made of components? subnets, VLANs, VPNs, instances, web apps
+
+=Virtual Private Cloud Designs
+hub and spoke
+
+=Network Address Translation in VPCs
+client and cloud NAT
+
+=Transit Gateway in Cloud
+gateway service for cloud traffic like a central hub for multiple cloud/prem networks
+
+=Content Delivery Networks
+distributed servers and data servers to connec tto and distribute content to multiple data servers like libraries, video, etc., more available, scalable, more speed and reduced load
+-also keeps increase in uptime
+
+CLOUD NETWORK SERVICES
+=Name Resolution
+converts human friendly names/domains to IP addresses (DNS services)
+used for on-prem and cloud resources
+
+=Dynamic Host Configuration Protocol (DHCP)
+configures IPs within set range and automatically assigns IPs
+
+=IP Address Tracking
+create network map and track IP addresses and their allocations
+
+=Network Time Protocol
+used to sync clocks of servers/devices within clound infrasyructure
+important: consistent timestamps for logging/monitoring/security/functioning
+
+
+TROUBLESHOOTING
+
+=Standard Tools
+ping for IPs
+traceroute/tracert to see trace of IP passes through routers
+
+=DNS Availability
+check resource records and name resolution
+quite a few of common DNS record types to consider for records
+
+=IP Address Availability
+check for incorrect IP configs, make sure the route infos are good
+remember IPv4 (common) vs IPv6 (not as common but way more addresses which is 128 bits)
+
+=DHCP Availability
+check for scope exhaustion and network overlaps in IP ranges
+
+=NTP Service Availability
+troubleshoot time syncing issues
+
+=Hypertext Transfer Protocol Issues
+Mind the common status codes: 4xx is problem in your end for resource, 5xx is probably on my end (502 bad gateway, 500 internal service error)
+1xx, 2xx, 3xx codes typically work
+
+=Network Config Issues
+errors can come from? bad patch management, incorrect network segmentation, config file errors, lack of version control
+
+=Network Config Latency Issues
+apps sensitive to latency issues? streaming analytics, data management tools, APIs, video
+what configs to check for this? reduce distance between clients/sevices, reduce number of hops, check data volume, make sure server has enough resources, check the cabling, verify quality of service settings
+
+=Network Bandwidth and Throughput
+bandwidth? quanytitu of data that can be transferred at a given time in data units per second
+Throughput? volume of data passing through connection
+what to check for bandwidth issues? latency, apps consuming bandwidth, misconfigured or overwhelmed network devices, load balancer type and config, maximum transfer unit rise
+failed connectivity issue? use ping and tracert, checp CSP outwage, check on-prem network devices, check logs
+
+=Device Misconfiguration
+no internet access for proxies? make sure clients can reach it, proxy is online, make sure firewall isn't blocking it
+limited connectivity to segments? check IP address configs and security group membership
+
+=Protocol Incompatiblity and Deprecation
+if VLAN not working as expected? make sure protocols that link on-prem and clid are comatible, consider GENEVE
+HTTP requirements block connections? make asure clients accept HHTPS certifications, servers have valid certs, make sure certs aren't expored
+
+=Routing
+use ping/tracert to narrow down last successful connecton point in router routes
+missing routes? check for incompatible protocols and misconfigurd routes and routing tables
+failed communications from incorrect routing? spellcheck routes in their tables
+no connectivity between VPCs? update name resolution and security groups, make sure both VPCs are configured for peering
+
+=Network Address Translation
+no internet access? make sure router is up and NAT tables are accurate
+make sure NAT protocols and config are accurate and that it can work over VPN
+
+=Packet Capture and Scanning Utilities
+use Wireshark and tcpdump to see and interpret network traffic on your network
+Use Nmap to scan networks to make sure all intended devices, nodes, and services connect on the network
+
+************
+AUTOMATING CLOUD RESOURCES
+automate deployment with various tools and templates for ease in install/update
+
+DEPLOY/CONFIG CLOUD RESOURCES USING CODE
+=Infrastructure as Code (IaC)
+CI/CD use software and IT operations (devops) to automate deployment/config
+-define state of config with code, then apply to infrastructure devices
+-in the past: manual config per device basis
+DevOps: build/code/plan/test/release/deploy/operation/monitor, in a loop
+
+all changes are made in code and them app;lied to devices, all of them, not individual
+"code is the source of truth"
+
+two approaches?
+imperative: specific commands to define that execute, step by step
+declarative: declare desired state and then automation tool figures out steps and implements
+
+Anisble, Puppet, Chef, SaltShack, PowerShell: some tools
+Of course, AI tools are included here as well to direct to build this code
+
+Benefits?
+quicker deployments/config changes, quicker recovery, consistency, reusuabile code, version control with rollback
+
+=Confugration as Code (CaC)
+in comparison: IaC deals with hardware, CaC deals with configuring apps
+integrates with CI/CD pipeline and taps to central repo of code
+
+benefits? matches IaC really
+
+=Versioning Practices
+track versions of released/implemented code to keep records
+practices?
+-be consistent with versioning method
+-explain what each version has for features
+-explain versitioning format
+common format? major.minor.patch version IE 1.1.5
+
+=Testing PRactices
+CI/CD relies on automated testing and tools, very ideal for automated config management
+-testing done at each stage to catch failures befor deployment
+
+type of tests?
+unit, integration, system, acceptance (meets business requirements)
+
+=Documentation Practices
+document processes/development/mamagenent/use
+
+=Code Formats
+Common types used for IaC and DevOps? JSON, YAML
+
+
+CI/CD PIPELINES
+devops: test/build/deploy regularly
+CI/CD: when code is committed, it runs into the repo and it prevents git merge and it tests and makes sure the build doesn't fail
+
+=Continuous Integration / Continuous Deployment
+
+=Automation Practices
+common to automate a bunch of tasks like scaling, deployment, and configs
+other tasks? routine ops, deployments, updates, scaling, shutdowns, restarts, troubleshooting
+
+=Orchestration Practices
+Configuring a series of automated tasks/microservices to run as a workflow in order and to input/have outputs to use as conditions for the next one
+common in devops, ci/cd, and cloud admin
+Apache Airflow is a workflow for data driven workloads/pipelines
+
+=Workflow Tasks
+tasks make up ci/cd workflows
+tasks in CI workflow? dev, code merge, testing, store code in repo
+tasks in CD workflow? deployment of code to systems, based on scaling and utilization requirmenets
+
+=Deploymenty Artifacts
+results of running CI/CD workflow, represent built code ready for prod
+types of artifacts? virtual machine images, container images, executables, application binaries, libraries
+many types of artifacts in sets: models, documents, codes, manuals, anything that's created
+
+=Code Repos
+places where code is stored and tasks can be access and run with CI/CD processes and IAC
+shared space for collab, version control, code merging, scans
+public or private
+services can access this too
+
+-Secure Code Management
+security best practices for managing config files used by tools
+best practices?
+don't hardcode passwords, key-based auth, keep passwor dvaults, use indfividual service accounts, use secure coding standard, have principle of lest perivilege
+
+DEVOPS TOOLS
+=Ansible Orchestration
+=Anisble Playbooks
+=Docker Container Management
+=Automate Container Management
+=Kubernetes Container Orchestration
+=Elasticsearch/Logstash/Kibana Stack
+=Grafana Visualization
+=Jenkins CI/CD Tool
+=Terraform IaC
+-Ansible is an orchestration tool that uses YAML files called playbooks to define configurations; needs SSH key-based auth to work well, good for provisioning/deployment/management
+-Docker makes containersn with Dockerfiles
+-Kubernetes automates container management and orchestration, such as scaling resources, load balancing, storage, logging, pods of shared network and storage resources
+-Elasticsearch: search/analysis engine for aggregated data
+-Logstash: log ingestion system to pull data for Elasticsearch storage
+-Kibana: query this tored data and build charts for dashboards
+-Grafana: visualization tool, mainly for cloud monitoring
+-Jenkins: CI/CD software dev tool, set pipelent on steps for build/test/deploy
+-Terraform: orchestrates IaC deployments in a type of language similar to YAML
+
+SOURCE CONTROL
+(Mainly using Git.)
+-remember that using a public version if misdonfugred will expose data
+=Github Actions
+github's CI/CD system that runs tasks when repo events occur
+triggers on psuehs, pulls, releases, schedule
+workflows are made in YAML files for steps
+compatible with Linux/Win/Mac
+
+SCRIPTING
+(Scripting basiscs: functions, variables, conditionals, loops, operators)
+use it because automation is great and makes things more consistent
+keep comments to improve readability, maintainibility, team collab
+
+INTEGREATION OF SYSTEMS
+=Event-Driven Architectures
+define triggers to initiate communication between decoupled services/apps
+APIs do this among other techs
+
+=Web Services as Compooents
+part of event-driven architecture, things like APIs and other services
+SOAP: simple object access protocol, uses XML
+RPC: remote procedure call
+GraphQL: open source API query to request only info needed
+
+**********
+SECURITY MANAGEMENT
+
+IDENTITY AND ACCESS MANAGEMENT CPNCEPTS
+Authentication, authorization, auditing
+--identity and access management
+-fra mework that helps orgs manage identityies and control access to resources, making sure people are authorized
+
+=Secure Cloud Management Environment Access
+cloud web portals are how users access resources after they prove their identity with auth
+common language infrastrcture? Microsoft standard, integrated into .net dev, can work with other programming languages, platform independence
+programmatic access to cloud resources through? APIs, SDKs
+
+=Secure Access to Cloud Resources
+connect to VMs with SSH and RDP to access admin resources
+bastion host alternative to VM instances, connect to it via cloud portal, then from there you use it as jump box to connect to VM instances
+
+=Account Lifecycle Management
+creating/management/removing identities, grants access to specific resources
+-create accunt, then assign new users to groups
+-aslo includes account updates such as group membership changes, link and unlink to cloud apps
+-deprovisioning later
+-benefits makes it easier to manage accounts and access
+CSPs simplify this with HR-driven processes
+
+=Authorization/Authentication Models
+use identity to gain access to resources
+types: local user, directory based, federayed, token based, multifactor, single sign on, openID, etc.
+
+different control models? mandatory access control, discretionary access control, group based AC, role-based AC, Open Auth 2.0 Auth, physical/logical access
+
+=Auditing Methods for Access Management
+two different aspects of auditing:
+-record authentication/authorization events
+-also reviewing accounts and groups and roles
+
+
+SECURTY CONTROLS
+
+
+=Endpoint Protection Controls
+help admins watch nodes for security vulnerabilites/misconfigs
+EDR utilityies monitor system for threats/exploits
+EDR systems install agents on workstations to help with this
+
+end points? regular user systems like desktops or laptops
+ways they manage? host-based intrustion detrection/prevention systems, firewall, log/event monitoring, file integriy
+
+=Data Loss Prevention
+detects data exfiltration attempts
+manage data loss methods? examination data at rest, transit, in use
+mainly checks against unauthorized data use for authrotized users
+
+main goals? identify/understand use of confidental dayta, apply automatic protection to data, monitor/detect/respond to exfiltration attempts
+
+=Intrusion Prevention/Detection Systems
+IDS logs and alerts on detection, less traffic impact but doesn't filter
+IPS: will log, alert, and block theats, incine and capable of filtering traffic but might accidentally block legit traffic
+
+-Distrubited Denial of service (DD0S) Protection
+DDOS is many hijacked tartgets to overwhelm target to make it inaccessible to legit customers, cloud infrastructure might attempt to meet scale and costs money
+
+=Firewall Controls
+use access control rules to match traffic against requirmeents defined by admin
+many types of firewalls
+stateless firewalls: network perimeter, host device, internal segments, filter criteria and logging
+=stateful: doesn't inspect every packet that comes through, much faster than stateless
+
+=Web App Firewall Security
+ACL types? allow lists, deny lists
+criteria for list? source ip address, source location, transmission size, any payload strings, specific malicious code
+virtual patching can address flaws at WAF rather than app's own code
+-good if there's no time to modify/redeploy in the app for the flaw itself
+-virtual patchs are temporary fixes
+
+=Network Securtiy Group
+virtual firewalls or control points that function using Access Control Lists (ACLs)
+they are replacements for firewalls in the cloud, essentially virtual firewalls
+
+VULNERABILITY MANAGEMENT
+under shared security models, org's clidu admins do security for any IaaS resources and virtual network confis applies to public, privayte, community, hybrid cloud models
+-use default and common credential scans, agent scans, service availability with Nmap
+
+Types pf testong?
+black box: unknown internal code structure
+white box: known internal code structure
+grey box: internal code structure partially know
+
+=Concepts
+
+
+=Steps
+four primary steps? scan, identitgfy, access, remediate
+can be wrapped into a single tool
+
+common types of tools: scanning and scanners, container analysis, services inspectors, vulnerability ID/assess/remediate
+Burp suite, Nessus, Nmap-third party scanners
+
+=Common Vulnerabilities/Exposures
+typicallu scored in intensity via National Vulnerability Database
+
+MONITORING ACTIVITIES
+
+=Vulnerability Exploitation
+many attack types and remeediation methods as on-prem
+use logs, consumption records, and billind info to identify
+
+generally:
+attack types
+exploiinting vulnerabilities
+human error
+outdated software
+
+=Social Engineering and Malware
+phishing, social enbgineering, malware, ransomware
+human error is the weak link
+
+=DDOS, Cryptojacking, Zombies
+jacking compouters to take it over to do DDOS, get resources, make it mine crypto
+cryptojacking steps? miners generate cryptol gets unauthorized access; mining coins using exploited resources
+
+=Metadata
+data about data: extra info about files/services/OS/etc.
+typically gets scanned to find old software versions or unpatched systems to explout
+collected/consolidated to mke interactions seem legit based on known info
+
+=Responding to Security Incidents
+have written securtity poliy or incident response plan for procedure for maanging attacks
+multiple polices needed for different kinds of acts
+data exfiltration/breach, DDOS, virus, website defacement
+
+=Event Monitoring
+continuoisuly monitor events: security, performance, use tools for that: Azure Monitor, AWS CloudWatch
+make sure changes aling with planned deployments
+types of changes?
+workload increase/crtease, config deviations, user account activity, resource deployment changes, network activity increases/decreases
+
+=Baseline Deviation
+have a baseline standard for what's installed and then you can check deviation against that, see trends and patterns
+automated tools for automated config management and baseline management
+
+=Server Ports
+various types of ports but common ones include?
+HHTP 80
+HHTPS 443
+RDP 3389
+SSH 22
+DNS 53
+
+=Unneccessary Open Ports
+keep onlt the important ones open to reduce vulnerabilities
+
+**********
+SECURITY COMPLIANCE AND TROUBLESHOOTING
+
+ASPECTS OF COMPLIANCE AND REGULATION
+many entityies and org define security standards and frameworks to protect data/services/availability
+some are voluntary, some standards enforce compliance, varies based on regions/nations/industries
+Many security practices are important and cloud proacticioners have those repsonsnbilities
+
+=Impact of Laws/Regulations
+various contritues govern data differently: otherwise they get swiped with fines
+industries also dicated how data is secured/managed
+legal concerns and mitigation strategies
+
+some industries are more heavily regulated than others: healthcare, government, finance
+
+areas of legal concern?
+personal/business data loss or exposure; employment or HR-related information, liability for breaches/expsoure, intellectual property, privacy laws like HIPPA, tax consideration, cross-border concerns
+
+=Data Privacy/Protection
+privacy issues impact architecture and implementation
+depends on data flows between local/regional/national borders
+encompasses areas such as persona info, financial info, health records, IP property
+
+facets of data privacty
+ownership: who controls data
+residency: where it's stored
+soverignity: what laws govern data
+localization: laws requiring data to stay in country
+locality: technical choice to keep data near users for performance
+
+=Data Classification
+involves IDing internal data and understanding secutity brach impact
+org needs to know how info is used what type of label it needs (confidental, internal, public, etc.)
+different classification schemes
+it's a shared security model too
+
+=Data Retention Policies
+speicfiies how long it's stored and when it's tossed, minimum and maximum time for data retention to comply with various requirements
+types of holds? ligitation, contractual, regulatory
+
+=Industry Standards for Compliance/Regulation
+various standards, many of them are specific to cloud
+SOC2m PIC DSS (payment cards), ISO 27000 stndards (international organization for standardization)
+
+SECURITY BEST PRACTICES
+=Principle of Least Privilege
+auth to access resources: consumer should be given minimum level of access needed for tasks
+add more based on approval
+things like: logon hours, read/write, print management rights
+how to implement? use authentication, folder access, printer access
+
+=Zero Trust Cloud Security
+assumption: no devices shoiuld be trusted, even internal
+every entity must authenticate and be explciitiyy granted access
+features? granular access control, continuous authentcation verification, zero implicit trust, dynamic security
+
+=Benchmark Practices
+provides way to measure risk, minimum security settings
+frameworks and approved settings
+
+=Hardening
+hardening deployments in any form is critical
+essential it's: remove what you don't need and use most current version of what's left
+tools to use? config checklists, deploymeny templates, automated comnfig management (integrate as much automation as possible)
+steps to harden OS that admins can take?
+-config baselines and automated config management
+-deactivate default accounts
+-change default settings
+-control remote access
+-understand importance of logs
+-softwar security
+-antivirus and anti-malware
+
+=Security Patching
+use services for regular security patches, keep them updated, usually on a schedule to allow admins to plan/download/test functionality
+also goes logging
+other types of patches at physicak level? hotfixes (not a long-term fix), virtual patches, signature updates, rolling up multiple patches at once
+
+=Encription
+protect data from threats; encoding data in storage/transit so that only things with the decryption key can access it
+variety of algos for it, many apps do this
+goals: confidentality, integrity, not-repudiation
+synmmetric (one key)/asymmetric (two different keys) encryption, hash cryptography
+
+=Encrypting Data in Transit
+HTTPS (secure HTTP), TLS (transport layer security), IPsec network encryption
+
+=Encrypting Data at Rest
+-cloud encryption, entire drive sor files
+-file intrigrity monitoring? uses encrption methods to make sure designated files aren't maliciously or inadvertedly changed: OSes use this to protect critcal OS files
+
+=Secrets Management
+secrets: in Devops, refers to any auth info like name, password, SSH key, cert key, API token, etc.
+these values are needed to access certain services or processes, and automation tools need secrets to run; typically we don't want to embed these secrets in code
+CSPs have secrets managers as a result
+
+=API Security
+API access needs security as well since lots of types of data are sent
+endpoints are API access points, so those get encrypted too
+use gateways to control traffic, authenticate connections, rate limiting and throttling, log and monitor
+other options: use encryption standards, monitor using cloud tools, manage updated API versions, scan for misconfigs and vulnerabilities, use load balancing and dynamic scaling
+
+=Container Security
+containers are common so they need good security too
+practices?
+-don't run containers with root privileges, segment networks to isolate traffic, establish secure connunication, use security policies to limited container activites, use trusted registries for container images that are signed, scan/test for vulnerabilities, manage container image versions, manage the secrets, monitor/audit
+
+=File and Object Storage Security
+similar practices:
+encryption, key management, integrity testing, access controls, IAM, verisioning, data replication
+
+TROUBLESHOOTING SECURITY ISSUES
+(I guess check the textbook on the platform for these?)
+
+=Authentication Issues
+Check for: make sure account isn't disabled, password is correct, MFA auths are being delivered, group memberships and roles are correct
+leaked crddentials? reset passwords, make sure SSH key-based auth is on, check MFA, check for how leaks happened, ensure principle of least privilege
+
+=Authorization Issues
+you want to make sure permissions are as lean as possible: stick with princiople of least privilege, montior privilege use by users/systen acciybts, use MFA for authorized access only, govern group memberships and proivilelges, use the lowest possible permissions, keep groups lean
+
+make sure subscriptions are active, check access limit, firewalls aren't blocking, access policibies
+
+=Neytwork and Directory Security Groups
+make sure security group rules and newwork ACL rules permit connectivity, check group memeberships and permissions to access reources
+
+=Security Groups and Access Control Lists
+check for correct security groups, inbound rules for their traffic
+
+=Network Access Control
+check configs: network entry points, devices accessing
+
+=Software Vulnerability Issues
+make sure software versions are current, match basekines, patched
+make sure the software also has resolved vulnerabilities
+
+=Unauthorized Software
+make sure the software you're using is authorized, licensed, vetted, trusted, etc.
+make sure people don't have the rights to install unauthorized software and that tools don't install them
+
+=Data Security Issues
+Make sure sdata is encrupted and that only authorized entitites can access it
+Make sure traffic is endrypted too
+
+=Lack of Encryption in Protocols
+encryot protocols like HTTP and FTP, use SSH connections, use IPSec
+
+=Cipher Suite Deprecations
+Stick with recent cipher suites: 1.2+ TLS, anything lower and any SSL shouldn't be used
+
+**********
+==IMPLEMENTING PERFORMANCE AND MONITORING==
+
+OPTIMIZE WORKLOADS USING CLOUD RESOURCES
+can divide performance and optimization into two areas: resource availability and app issues
+
+Implement Compute Resources
+components, VM instance types, container optimization, serverless computing
+
+Computer Resources for VMs
+CSPs offer a lot of instance types with various compute resources
+consideratons: CPU, GPU, Memory, Networking
+
+Compute Resources for Containers
+CSPs also offer container-optimized instances; CPU and moeru resources
+also pre-pull images to host for deployment; auto scaling
+
+Compute Resources for Serverless Applications
+serverless is specific to cloud environments; containers meanwhile can be run on cloud or on-prem resources
+serverless functions suport stateless apps and are less portable than container-hosted
+it's: function as a service
+"warm" serverless functions are pre-initialized
+
+most tools are: metrics + logs +tracing, names just vary based on the service
+
+Storage Workloads
+storage optimization depeneds on the right instant for the job
+compare SSD VS. HDD, IOPs transactions, tiers, throughput, capacity, data deduplication and compression (deduplication only saves the first instance of each file and not duplicates; have pointers to original file)
+
+Network Traffic
+consider bandwidth, thoroughput, latency
+many variables can affect this traffic
+
+Network Workloads
+virtualized NIC configs, select the right kind of instances that are optimized for vCPU, memory, storage
+types: SDN, CDN
+check load balancing
+
+Orchestration and Workflow Optimization
+two distinct areas
+overall workflow and how it works together: orchestration optimization
+looking at individual workflow tasks within larger contact: workflow optimization
+
+Managed Services
+MSP can help org optimizing a bunch pf things, using storage and network architects that are experts that you might not have in-house, can save money and have more efficient configurations
+-security, service management, building/migration, design, improving processes
+-some CSPs also offer management services for those vendurs
+architecture, operations, support, hosting
+
+CONFIGURE APPROPRIATE SCALING APPROACHES
+Scaling Approaches
+various approaches exist, usually auto-scaling based on metrics/events, manual is possible but more difficult
+triggered scaling: based on conditions like trending response patterns, based on loads, based on certain types of events
+
+Config Types for Scaling
+vertical: add more storage/ram/CPU for the one server
+horizontail: adding duplicates of more servers
+diagonal: both ways of course
+
+=> cloud bursting? in advance, set aside cloud resources just in case of a sudden high load whereas usually the load is lower and mainly on-premises
+-such as: more CPUs when bursting
+
+Troubleshoot Auto-Scaling Issues
+monitoring to identify over/underutilization of resources
+ID services and apps that could use scaling
+make sure: autoscaling is properly configured, the triggers for scaling up or down are set properly
+
+CONFIGURE RESOURCES TO ACHIEVE OBSERVABILITY
+Cloud Service Observability
+good observability includes resource management, accounting, consumption, connectivity, and overall environmeny health
+lets cloud admins view service availability and workload data
+wayts to do it? tagging, costs, elasticity usage, connectivity, latency incidents, overall utilization
+
+Logging Collection
+rsyslog (Linuz), event viewer (win)
+system, app, user events
+can forward and filter
+
+Log Aggregation
+can configure servers to forward logs to central location for aggregating
+different configurations files for forwarding based on system
+
+Log File Analysis
+invovles understanding log entries, lobs tend to be labeled with types and severityies, what's involved, etc.
+in response to certain types of logs, automation can luanch scripts/processes
+CSPs offer this at scale
+
+Log File Retention
+in general, it's important to retain all the logs and have a paper trial to be able to hunt down, an archive, etc.
+
+Tracing
+provides monitoring/troubleshooting for complex distributed systems
+tracing tracks app/data flow through entire lifecycle from start to finish
+especially helpful since many services can be distributed across instances, comtainers, etc.
+it records each function call
+allows troubleshooting info based on each step
+
+Optimization and Monitoring
+logs are passive, monitoring are active that continually displays status info and can act on them
+uses log files, performance info, and utilization metrics to display health and availability of cloud stuff
+considers baselines, thresholds, performance, and resources
+example: Azure Monitor
+
+Cloud Detection and Response Solutions
+alerts and responses for incidents, can provide quick ID/analysis/response to security threats or service interruptions
+CSPs can offer different types of alerts/monitoring to open incidents
+
+MANAGING LIFE CYCLE OF CLOUD RESOURCES
+
+Lifecycle Roadmap
+lifecyce roadmap tracks lifecycle phases of hardware/service/software systems
+-five phases:
+development
+deployment
+maintenance
+deprecation
+decommission
+
+Major and Minor Updates
+major: significant changes that break/alter current functionality, not backwards compatible
+minor: bug fixes, incremenetal changes, doesn't usually change functionality
+senantic versiioning: major.minor.patch such as 1.1.3
+
+Patches
+patches are done a lot, os/apps/firmware/drivers need patching
+in PaaS and Saas, the CSP takes care of it
+with public IaaS, CSP does hardware firmware and deiver updates
+
+reasons to patch> security flaws, bugs, feature releases/enchancements
+stuff to patch: hypervisiors, VMs, network components, apps, storage components, firmware, the OS
+N-1 approach?
+N is urrent patch
+-1: stay one version back to let issues with patches be discovered
+you can configure and audit for this, but be mindful of zero-day and other vulnerabilities
+
+Update and Patch Testing
+make sure to test the patches before updating
+use test environments and automate the testing
+blue-green and phased rollout deployments are good ways to do this safely
+
+Ephemeral and Persistent Data
+ephemeral: volatile storage and disappears after use
+persistent: long-term storage (SSDs, HDDs)
+datamanagement: physical security, encruption, permissions, backups, replication
+
+**********
+==MANAGING DISASTER RECOVRRY AND BUSINESS CONTINUITY==
+
+BACKUP AND RECOVERY METHODS
+Backup Types
+full: complete copy
+synethic full: full backup that combos prior full backup with incremental without copying all data from source
+incremental: only backup data changed since last backup (any type)
+Differential: back up all changed data since last FULL backup
+Snapshot: capture system/volumne state at speicfic time for quick restore
+Archives: long-term storage of data
+
+Backup Objects
+system-stage like OS files
+app level
+filesystem
+
+Locations
+3-2-1 backup rule: at least 3 copies of data, in 2 seperate locations, 1 of them should be off-site
+off-sire: remote office locations, cloud, third-party storage
+
+Targets
+tape media, dis media like HDD and SSds, cloud storage, object storage (data as objects with metadata)
+backup management: tools and policies to schedule/monitor/secure/verify
+
+Schedules
+regular backups of user data
+config fules for system/apps
+system-state for OS components
+database settings and schemas
+database data records/transactions
+
+Data Retention
+policies define rules for how long data must be stored based on business/lega/regulatory requirements
+best practices: structured retention schedules, encryption, regular review
+backup retention: length of time backup copies are kept before delete/archive
+
+Data Replication
+real time replication between primary/seconary servers, VM replication to disaster recovery site, cross-region cloud storage
+Sycn VS. async replication
+Synchroncous: writes data to both locations at same time for zero data loss but higher latency
+Asynchronouse: writes to secondary site later, less latency but risiking minimal data loss
+
+Data Encryption
+in-transcit: protects hilw edata is being transmitted using TLS
+at-rest: encrypt data on disks/DBs/backups where they are
+
+Recovery Testing
+backup recoverability and data integrity
+test these backups, make sure data is encrypted so backed up data is safe
+
+Recovery Types and Options
+(need to fill this out)
+in-place overwrite restoral: recover data back in bulk to original place and overwrite
+side-by-side/parallel: recover original prod server without overwriting to compare
+alternate location: restore to an alternate place like a VM for testing
+granular: restore previous individual files/folders
+snapshot: restore file contents from a given point in time for specifics and troubleshooting
+
+
+SERVICE AVAILABILITY CONCEPTS
+(need to fill this out from platform)
+having the system up and running when you need it
+you don't want a zero point of failure
+
+smallest network: network access, boadcast, IP address at each routier, default gateway to get out to world, subnet
+netween two routers
+
+Resource Availability
+Cloud bursting
+Edge computing
+Availability monitoring
+
+Network Configs for Resource Availability
+NIC teaming: multiple NIC cards, can be bundled or support each other
+Load balancing: for hardware/software and types of scheduling
+
+Multi-Cloud Tenancy
+hybrid cloud, multi-cloud, public and private
+
+Disaster Recovery
+service level agreements (SLAs): service requires/expectations between consumer and provider
+recovery time objectives (RTOs): amount of downtime available to recover
+recovery point objections (RPOs): amount of data an org can acceptably lose to determine backup frequency
+mean time to recovery (MTTR): verage time it takes org to restore normal operations after incident
+mean time between failures (MBTF): mean time between server/system failures
+
+Disaster Recovery Sites
+hot sites: all equipment needed for business to take ouver at moment's notice
+warm sites: some computer and network hardware, need to migrate the data
+cold sites: basically just the building and you put in the needed equopment and data
+seeperate geographical locations
+cloud sites: just do it in the cloud to replicate setup, CSPs provide this

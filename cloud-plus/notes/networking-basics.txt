@@ -1,0 +1,102 @@
+NETWORKING BASICS
+
+NETWORK TYPES AND TOPOLOGIES
+What is a network?
+A network is a collection of network-enabled devices, typically made up of computers, switches, routers, printers, and servers.
+
+What is a personal area network?
+A personal area network (PAN) provides networking needs around an individual. (Typically Bluetooth)
+
+A local area network (LAN) provides networking needs around a single location, such as an office, a school, a university, a hospital, or an airport. Typically, a LAN is privately owned and requires authentication and authorization to access.
+
+A metropolitan area network (MAN) provides networking capabilities between different locations within a city or metropolitan area to provide a single extensive network.
+
+A wide area network (WAN) provides networking capabilities between different geographical locations locally or worldwide.
+A WAN links multiple LANs together to create one super network. 
+With a WAN, you use a virtual private network (VPN) to manage the connection between different LANs.
+
+A network topology describes the physical composition of a network. 
+
+In a bus topology, each network device is connected to a single network cable.
+
+In a ring topology, each network device is connected to its neighbor to form a ring. 
+
+In a physical mesh, each network device connects to every other network device in the network.
+
+Logical mesh does this with network protocols instead of physical connections
+
+The star topology:Each network device connects to a centralized hub or switch. Switches and hubs can be linked together to extend and build more extensive networks.
+
+Ethernet is used in the OSI model at the data link and physical layers. 
+
+The Ethernet standard defines a framework for data transmission, error handling, and performance thresholds.
+
+
+TYPES OF DEVICES
+Network standards provide a framework that enables the interoperability between devices.
+
+The media access control (MAC) address is a unique identifier assigned to every network-enabled device at the time of manufacture.
+
+A repeater is a two-port device that repeats network signals. Repeaters are used when network devices are some distance from each other. 
+
+A bridge divides a network into network segments and can filter and forward data packets between these segments. Bridges use the network device's MAC address to determine the data package's destination.
+
+A hub acts as a multiport repeater on a network. Hubs are used to connect more than one device and to structure the layout of a network. 
+
+A switch combines the functionality of a bridge and a hub. It segments networks and can interpret and filter packet data to send it directly to an attached network device. Switches use the network device's MAC address to determine the data package's destination. A switch operates in full-duplex mode, which means it can send and receive data to and from network devices at the same time.
+
+Quality of Service
+Manage LAN traffic so that critical systems are given higher priority.
+
+Spanning Tree Protocol (STP)
+Build resilience into your network by defining alternative network routes in case a cable or device fails.
+
+Port mirroring
+Use with a network analyzer to diagnose network issues and problems. During setup, the switch exports a copy of the network traffic to a single port.
+
+Routers link networks with different ranged addresses together. They can interpret and filter data packets, and then forward them to the correct network. Routers use the network device's IP address information to route the data package to its destination.
+
+Routers in an interconnected network maintain a routing table that lists the preferred route between each of the networks. 
+Routing information is shared between routers by using a routing protocol like the Border Gateway Protocol (BGP).
+
+
+NETWORK PROTOCOLS
+A network protocol is a set of conditions and rules that specify how network devices communicate on a given network. It provides a common framework for establishing and maintaining a communications channel, and how to handle errors or faults should they occur. 
+
+A network address is a unique identifier that identifies a network-enabled device.
+The first type is a media access control (MAC) address that identifies the network interface on the hardware level. The second type is an Internet Protocol (IP) address that identifies the network interface on a software level.
+
+A data packet is a unit that's used to describe the message that two devices on a network send each other. A data packet consists of raw data, headers, and potentially a trailer. The header contains several information items. For example, it includes the sender and destination device addresses, the size of the packet, the protocol used, and the packet number. The trailer in a data packet deals with error checking.
+
+Routing, in the context of networks, refers to the mechanism used to make sure that data packets follow the correct delivery path between the sending and receiving devices on different networks.
+
+Communication protocols focus on establishing and maintaining a connection between devices. 
+
+Transmission Control Protocol: TCP divides data into data packets that can be sent securely and quickly while minimizing the chance of data loss
+Internet Protocol: IP is responsible for the addressing of a data packet. IP encapsulates the data packet to be delivered and adds an address header.
+User Datagram Protocol: UDP is a connectionless protocol that offers a low-latency and loss-tolerant implementation. 
+
+Network security protocols are designed to maintain the security of data across your network. These protocols encrypt in-transmission messages between users, services, and applications.
+
+Network security protocols use encryption and cryptographic principles to secure messages.
+
+Secure Socket Layer (SSL): SSL is a standard encryption and security protocol. It provides a secure and encrypted connection between your computer and the target server or device that you accessed over the internet.
+Transport Layer Security (TLS): TLS is the successor to SSL, and provides a stronger and more robust security encryption protocol.
+Hypertext Transfer Protocol Secure (HTTPS): HTTPS provides a more secure version of the standard HTTP protocol by using the TLS or SSL encryption standard. This combination of protocols ensures that all data transmitted between the server and the web browser is encrypted and secure from eavesdropping or data packet sniffing.
+Secure Shell (SSH): SSH is a cryptographic network security protocol that provides a secure data connection across a network. SSH is designed to support command-line execution of instructions, which includes remote authentication to servers. 
+
+A port is a logical construct that allows the routing of incoming messages to specific processes.
+Every port links to a specific service or communications protocol.
+
+
+IP ADDRESS STANDARDS AND SERVICES
+The Address Resolution Protocol (ARP) is a communications protocol within the Internet Protocol suite. It's a request-response protocol used to resolve the media access control (MAC) address for a given IP address. 
+
+The Transmission Control Protocol/Internet Protocol is a collection of different communication protocols that support and define how network-enabled devices interconnect with each other over an IP-based network.
+TCP/IP defines the way data is shared between network-enabled devices by defining the end-to-end communication process. It manages how the message is broken down into packets of data, which are sometimes known as datagrams. TCP/IP also determines how the packet is addressed and transmitted, routed, and received. TCP/IP can determine the most efficient route across a network.
+
+A subnet defines one or more logical networks within the class A, B, or C network. Without subnets, you can only have a single network in each of the class A, B, or C networks.
+
+An IP address, also known as a network address or routing prefix, represents the address of the device or computer to send the packet of data. A subnet, or host address, represents which network or subnetwork to use. A subnet is a 32-bit number framed by using the dotted-decimal format. For example, 255.255.255.0 is a standard subnet mask.
+
+Subnets allow multiple subnetworks to exist within one network. They can be used to enhance routing performance. 

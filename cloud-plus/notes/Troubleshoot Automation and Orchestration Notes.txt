@@ -1,0 +1,31 @@
+AUTOMATION/ORCHESTRATION ISSUES QUIZ
+
+Q: How do you troubleshoot issues with Account Mismatches?
+A: Verify credentials, username, password, API key, or access role. Ensure proper permissions are granted and account is active.
+
+Q: How do you troubleshoot issues with Change Management Failures?
+A: Review change management records. Verify automation scripts reflect recent changes. Implement a robust change communication process.
+
+Q: How do you troubleshoot issues with Server Name Changes?
+A: Update scripts with the latest server names. Consider using hostnames or DNS records instead of IP addresses. Implement automated server name updates where feasible.
+
+Q: How do you troubleshoot issues with IP Address Changes?
+A: Update scripts with the latest IP addresses. Adjust routing configurations for the changes. Ensure dependencies are met in the new location.
+
+Q: How do you troubleshoot issues with Location Changes?
+A: Review and update scripts for location changes. Adjust routing configurations. Ensure dependencies are met in the new location.
+
+Q: How do you troubleshoot issues with Version/Feature Mismatches?
+A: Verify software versions are consistent across all servers. Update scripts to be compatible with the current environment. Install and activate required features.
+
+Q: How do you troubleshoot issues with Deprecated Features in Automation Tools?
+A: Identify and update scripts to use the latest features. Find alternatives for deprecated functions or APIs. Stay informed about upcoming deprecations.
+
+Q: How do you troubleshoot issues with API Version Incompatibility	?
+A: Verify API versions are compatible. Update scripts to use the correct API version. Check for any known compatibility issues with the specific API implementation.
+
+Q: How do you troubleshoot issues with Job Validation Issues?
+A: Carefully review job inputs and parameters. Ensure data formatting is correct. Verify all required information is provided.
+
+Q: How do you troubleshoot issues with Patching Failures?
+A: Review patching scripts for errors. Verify patch compatibility. Ensure sufficient system resources are available. Check network connectivity during the patching process.

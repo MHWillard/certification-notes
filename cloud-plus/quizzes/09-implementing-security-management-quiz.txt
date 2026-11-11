@@ -1,0 +1,71 @@
+Q: A framework that helps organizations manage identities and control access to resources is:
+A: Identity and access management
+
+Q: APIs and SDKs are technologies used to programatically access:
+A: Cloud resources
+
+Q: Which protocols are used to connect to virtual machines and access admin resources?
+A: SSH and RDP
+
+Q: The process of creating, managing, and removing identities while granting access to specific resources is:
+A: Account lifecycle management
+
+Q: An alternative to direct VM instances that serves as a jump box for connections is:
+A: A bastion host
+
+Q: What is the process of using identity to gain access to resources?
+A: Authorization
+
+Q: Local user, directory-based, federated, token-based, multifactor, single sign-on, and OpenID are types of:
+A: Authentication methods
+
+Q: Mandatory access control, discretionary access control, group-based access control, role-based access control, OAuth 2.0, and physical/logical access control are:
+A: Access control models
+
+Q: Recording authentication and authorization events, and reviewing accounts, groups, and roles are aspects of:
+A: Auditing for access management
+
+Q: What tools help admins watch nodes for security vulnerabilities and misconfigurations?
+A: Endpoint protection controls
+
+Q: What system logs and alerts on detection with less traffic impact, but does not filter threats?
+A: Intrusion detection system
+
+Q: What system logs, alerts, and blocks threats; capable of filtering traffic but might accidentally block legitimate traffic?
+A: Intrusion prevention system
+
+Q: What type of attack using many hijacked targets to overwhelm a target and make it inaccessible to legitimate customers?
+A: ADistrbuted denial of service (DDOS) attack
+
+Q: What type of firewall inspects every packet at the network perimeter, host device, or internal segments using filter criteria?
+A: Stateless firewall
+
+Q: Firewalls do not inspect every packet and operate much faster than stateless firewalls are called:
+A: Stateful firewalls
+
+Q: What do firewalls use to match traffic against requirements defined by administrators?
+A: Access control rules
+
+Q: What are the two types of access control lists for web firewalls?
+A: Allow lists and deny lists
+
+Q: A virtual firewall or control point that functions using Access Control Lists (ACLs) is:
+A: A network security group
+
+Q: Security testing where the internal code structure is unknown is:
+A: Black box security testing
+
+Q: Security testing where the internal code structure is known is:
+A: White box security testing
+
+Q: Security testing where the internal code structure is partially known is:
+A: Grey box security testing
+
+Q: Scan, identify, assess, and remediate are:
+A: Four primary steps in security testing
+
+Q: Data about data; extra information about files, services, and operating systems is:
+A: Metadata
+
+Q: A comparison of what is installed against a baseline standard to identify deviations, trends, and patterns is:
+A: Baseline deviation

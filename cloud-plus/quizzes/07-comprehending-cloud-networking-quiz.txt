@@ -1,0 +1,86 @@
+Q: How data moves through network infrastructure is shown by:
+A: A network flow diagram
+
+Q: IPsec, SSH, Layer 2 Tunneling Protocol, Point-to-Point Tunneling Protocol are common:
+A: VPN protocols
+
+Q: Encrypted secure connections between users and cloud infrastructure that protect against threats are provided by:
+A: A VPN
+
+Q: A connection from one site through a router to the internet, through a VPN gateway, to another site is a:
+A: Site-to-site VPN
+
+Q: A smaller network connecting to the internet through a VPN router to reach a site is a:
+A: Point-to-site VPN
+
+Q: A protocol used to securely remotely connect to cloud VMs through an encrypted command-line tunnel is:
+A: Secure Shell (SSH)
+
+Q: This tool distribute workloads across multiple servers to maintain system availability and performance:
+A: Load balancer
+
+Q: Station to router to firewall to resources is a type of:
+A: Network flow
+
+Q: The layer IPsec resides in is:
+A: The network layer
+
+Q: Application, Presentation, Session, Transport, Network, Data Link, Physical are:
+A: The seven OSI model layers
+
+Q: This tool distributes workloads across instances based on gateway information:
+A: Application load balancer
+
+Q: This tool works at OSI layer 4 and balances connectivity based on traffic through routers and similar devices:
+A: Network load balancer
+
+Q: This tool scales network appliances based on demand by balancing through networking and instance workloads:
+A: Gateway load balancer
+
+Q: A firewall that tracks connections with TCP and remembers state and login data is:
+A: A stateful firewall
+
+Q: A firewall that requires authentication each time and does not track state is:
+A: A stateless firewall
+
+Q: A division of a large network into smaller mini-networks within the same address space is:
+A: A subnet
+
+Q: Single network with subnets, multiple networks configured as peers, or hub and spoke topology are:
+A: Types of subnet configurations
+
+Q: The practice of segmenting workloads from other workloads and infrastructure is:
+A: Microsegmentation
+
+Q: A table a router uses to determine the best path to send traffic, or uses a default gateway to reach the ISP is:
+A: A routing table
+
+Q: Interpreting, static, and dynamic are types of:
+A: Routing tables
+
+Q: Open Shortest Path First, Enhanced Interior Gateway Routing Protocol, and Border Gateway Protocol are common:
+A: Routing table protocols
+
+Q: Virtual network adapters that use virtual IDs to gain network access and connect instances to networks are:
+A: Virtual network interface cards
+
+Q: A connection that allows multiple VLANs to travel along one cable is:
+A: A VLAN trunk
+
+Q: A gateway service that acts as a central hub for traffic between multiple cloud and on-premises networks is:
+A: A transit gateway
+
+Q: A distributed system of servers that stores and delivers content to reduce latency, improve speed, and reduce load is:
+A: A content delivery network
+
+Q: This protocl automatically assigns IP addresses within a set range:
+A: DHCP does
+
+Q: A protocol used to synchronize the clocks of servers and devices within cloud infrastructure is:
+A: Network Time Protocol
+
+Q: The quantity of data that can be transferred in a given time, measured in data units per second is:
+A: Bandwidth
+
+Q: The volume of data passing through a connection at a given time is:
+A: Throughput

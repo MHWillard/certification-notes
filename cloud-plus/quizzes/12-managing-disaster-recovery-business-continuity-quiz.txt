@@ -1,0 +1,74 @@
+Q: What is a backup type that creates a complete copy of all data?
+A: Full backup
+
+Q: What is a backup type that combines a prior full backup with incremental backups without copying all data from the source?
+A: Synthetic full backup
+
+Q: What type of backup captures only the data that has changed since the last backup of any type?
+A: Incremental backup
+
+Q: What type of backup captures all changed data since the last full backup?
+A: Differential backup
+
+Q: What is a backup type that captures the system or volume state at a specific point in time for quick restore?
+A: Snapshot
+
+Q: What term describes long-term storage of data?
+A: Archives
+
+Q: What is the name of the backup rule that requires at least 3 copies of data in 2 separate locations with 1 off-site?
+A: 3-2-1 backup rule
+
+Q: What do data retention policies define?
+A: Rules for how long data must be stored based on business, legal, or regulatory requirements
+
+Q: What term describes the length of time backup copies are kept before deletion or archival?
+A: Backup retention
+
+Q: What is a replication method that writes data to both locations simultaneously for zero data loss?
+A: Synchronous replication
+
+Q: What is a replication method that writes to the secondary site later, resulting in less latency but minimal potential data loss?
+A: Asynchronous replication
+
+Q: What recovery option restores data in bulk to the original location and overwrites existing data?
+A: In-place restoration
+
+Q: What recovery option restores the original production server without overwriting to allow for comparison?
+A: Side-by-side restoration
+
+Q: What recovery option restores data to an alternate location such as a virtual machine for testing?
+A: Alternate location restoration
+
+Q: What recovery option restores only individual files or folders?
+A: Granular restoration
+
+Q: What recovery option restores file contents from a specific point in time for troubleshooting?
+A: Snapshot restoration
+
+Q: What is the practice of bundling multiple network interface cards together?
+A: NIC teaming
+
+Q: What defines service requirements and expectations between a consumer and a service provider?
+A: Service Level Agreement (SLA)
+
+Q: What term describes the amount of downtime available to recover from an incident?
+A: Recovery Time Objective (RTO)
+
+Q: What term describes the maximum amount of data an organization can acceptably lose?
+A: Recovery Point Objective (RPO)
+
+Q: What term describes the average time it takes an organization to restore normal operations after an incident?
+A: Mean Time To Recovery (MTTR)
+
+Q: What term describes the average time between system or server failures?
+A: Mean Time Between Failures (MTBF)
+
+Q: What type of disaster recovery site has all equipment needed for business operations to take over immediately?
+A: Hot site
+
+Q: What type of disaster recovery site has some computer and network hardware but requires data migration?
+A: Warm site
+
+Q: What type of disaster recovery site consists of only a building where equipment and data must be added?
+A: Cold site

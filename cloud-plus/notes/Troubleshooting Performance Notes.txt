@@ -1,0 +1,23 @@
+Q: How can you resolve bottlenecks with input/output in storage?
+A: Optimize the workload, use load balancing strategies, or get more storage capacity
+
+Q: How do you address bottlenecks in scaling?
+A: Check the scaling configurations and architecture to support scaling
+
+Q: What are some things to do to lower network latency?
+A: Remove bottle necks, optimize routing configurations
+
+Q: How do you address extra memory use?
+A: Check processes, consider increasing amount of memory, see if any memory leaks exist
+
+Q: How do you address GPU bottlenecks?
+A: Upgrade the GPU, optimize applications and try parallelization
+
+Q: How do you address high CPU use?
+A: Upgrade the CPU, optimize processes and do load balancing
+
+Q: How can you handle issues with a load balancer?
+A: Check configurations, check proper flow of traffic, scale resources horizontally to handle demand
+
+Q: How does session affinity help load balancers?
+A: Ensures consistent user sessions by directing requests to the same server

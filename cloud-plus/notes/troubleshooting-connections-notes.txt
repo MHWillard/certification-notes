@@ -1,0 +1,104 @@
+If DNS records seem inaccurate:
+Flush the DNS cache on devices, check the status and accessibility of the DNS server.
+
+If microsegmentation in the firewall seems off:
+Validate the configurations, make sure they align with security requirements.
+
+If the subnet is incorrect:
+Check and correct subnet settings, make sure subnets align with network architecture.
+
+If there's an issue with the host header:
+Check for proper configuration in the load balancer and backend servers
+Make sure x-Forwarded headers are correctly foreward to backend servers
+
+For issues with backend servers:
+Check health and status, check firewall rules and port settings, check resource utilization to prevent overload
+
+To handle issues with encryption in load balancers:
+Verify the SSL configuration, make sure the cipher suite for the encryption is compatible, check for missing or invalid certificates in the chain
+
+For frontend issues with load balancers:
+Verify the DNS configuration is correct and pointing to the load balancer
+Check firewall rules on the front end to ensure they allow incoming traffic to the load balancer
+Test the network connectivity between the front end and the load balancer.
+
+Check for protocol issues for load balancers:
+Verify the load balancer is listening on the correct ports for HTTP and HTTPS traffic.
+Ensure valid and properly configured SSL certificates are installed on the load balancer and backend servers.
+Check if your application uses any specific application protocols and ensure the load balancer supports them.
+
+If the maximum transmission unit is off for the network:
+Determine the optimal MTU size for the network path.
+Configure all devices to use the same MTU setting.
+Enable jumbo frames on network interfaces if needed.
+
+For network address translation (NAT) destinations:
+Verify NAT rules for desired destinations and add missing entries.
+Analyze network routing tables and address any routing loops.
+Review firewall rules and ensure they allow access to the desired destinations.
+
+For network address translation (NAT) sources:
+Review NAT rules for affected applications and ensure proper translation.
+Clear and refresh the NAT table to eliminate outdated entries.
+Check for duplicate IP addresses and resolve conflicts.
+
+For network address translation (NAT) settings on VPN:
+Verify NAT settings on both ends of the VPN connection.
+Ensure port forwarding rules are configured for required VPN protocols/ports.
+Adjust NAT timeouts or consider alternative VPN options.
+
+Fix network peering issues:
+Validate peering configurations between network components.
+Ensure peering relationships are established and functioning.
+
+If there's an issue with a proxy:
+Verify the proxy address, port, and authentication credentials.
+Check if the desired websites are explicitly blocked by the proxy.
+Contact the proxy server administrator if overloaded or experiencing technical issues.
+
+Confirm Quality of Service (QoS):
+Verify QoS settings for affected traffic types and priorities.
+Monitor network traffic and identify bandwidth bottlenecks.
+Adjust QoS parameters or upgrade network infrastructure if necessary.
+
+For default settings on network devices, verify the correct default gateway IP address and subnet mask are configured.
+
+When working with dynamic routing:
+Verify the correct routing protocol configuration parameters, including metric values, timers, and network advertisements.
+
+If static routing is having an issue:
+Double-check the accuracy of static route entries, including destination network, subnet mask, and next-hop gateway.
+
+To fix issues with time synchronization:
+Verify system clocks on all devices are synchronized with a reliable NTP server.
+Check the NTP server itself for any connectivity or configuration problems.
+Investigate potential sources of clock drift, such as hardware issues or software bugs.
+
+When troubleshooting problems with VLAN / VXLAN / GENEVE:
+Verify VLAN IDs and trunk ports are configured correctly.
+Check tunnel configuration parameters (e.g., source/destination endpoints, encapsulation type).
+Ensure consistent MTU settings across all devices involved in the communication.
+Analyze spanning-tree protocol logs for potential loop issues.
+
+If the access control list (ACL) is blocking something:
+Review ACL configurations for proper access permissions.
+Adjust ACL rules to align with security requirements.
+
+When dealing with inherited network security settings:
+Verify inheritance settings for network security groups.
+Confirm that rules are inherited correctly from parent groups.
+
+----------------
+
+ping: Tests the reachability of a specific IP address and measures the response time.
+tracert/traceroute: Traces the route packets take to reach a specific destination, identifying potential bottlenecks or routing issues.
+flushdns: Clears the local DNS cache, potentially resolving issues caused by outdated or corrupted entries.
+ipconfig/ifconfig/ip: Provides information about the network configuration of your device, including IP addresses, subnet masks, and default gateways.
+nslookup/dig: Resolves domain names to IP addresses and vice versa, helping identify DNS configuration issues.
+netstat/ss: Lists active network connections and provides information about their status, protocols, and ports.
+route: Displays the routing table, which defines how packets are routed through the network.
+arp: Shows the Address Resolution Protocol (ARP) cache, which maps IP addresses to MAC addresses.
+curl: Sends HTTP requests to a specified URL, helping diagnose web server connectivity and configuration issues.
+Packet capture	Captures all network traffic flowing through a specific interface, allowing for detailed analysis of network behavior and troubleshooting of complex issues.
+Packet analyzer	Analyzes captured network traffic, providing insights into protocols, packet contents, and potential network problems.
+OpenSSL client	Tests the connection to an SSL/TLS server and verifies the server's certificate, helping identify SSL/TLS configuration issues.

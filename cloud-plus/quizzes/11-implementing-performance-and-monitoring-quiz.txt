@@ -1,0 +1,63 @@
+Q: What are the two main areas that performance and optimization can be divided into?
+A: Resource availability and app issues
+
+Q: CPU, GPU, memory, and networking are factors to consider when managing:
+A: Compute resources
+
+Q: What environments can serverless workloads run in?
+A: Cloud environments
+
+Q: What environments can containerized applications run in?
+A: Cloud or on-premises
+
+Q: What type of applications do serverless functions support?
+A: Stateless applications
+
+Q: How does the portability of serverless functions compare to container-hosted applications?
+A: Serverless functions are less portable
+
+Q: What is a technique that saves only the first instance of each file and uses pointers to reference duplicate copies?
+A: Data deduplication
+
+Q: What factors should be considered when managing network traffic?
+A: Bandwidth, throughput, and latency
+
+Q: What is the term for optimizing how entire workflows work together?
+A: Orchestration optimization
+
+Q: What is the term for optimizing individual workflow tasks within a larger context?
+A: Workflow optimization
+
+Q: What is it called when you add more storage, RAM, or CPU to a single server?
+A: Vertical scaling
+
+Q: What is it called when you add duplicate servers for bigger workloads?
+A: Horizontal scaling
+
+Q: Setting aside cloud resources in advance to handle sudden spikes in load while normally running on-premises is called:
+A: Cloud bursting
+
+Q: Resource management, accounting, consumption, connectivity, and environment health are all components of:
+A: Cloud service observability
+
+Q: Trending response patterns, load levels, and specific event types can trigger:
+A: Automatic scaling
+
+Q: What is it called to configure servers to forward logs to a central location for collection and analysis?
+A: Log aggregation
+
+Q: Why is log file retention important?
+A: To maintain a paper trail for troubleshooting, auditing, and archiving purposes
+A: Log file retention
+
+Q: What does tracing track in distributed systems?
+A: Application and data flow through the entire lifecycle from start to finish
+
+Q: How does logging differ from monitoring?
+A: Logging is passive; monitoring is active and continuously displays status information that can trigger actions
+
+Q: Development, deployment, maintenance, deprecation, and decommission are the five phases of a:
+A: Lifecycle roadmap
+
+Q: What is the N-1 approach?
+A: Staying one version back from the current patch to allow issues to be discovered before widespread adoption

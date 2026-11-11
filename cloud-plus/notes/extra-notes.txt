@@ -1,0 +1,47 @@
+Q: In the Internet of Things, Application/Network/Sensor is the:
+A: Transmission protocol stack
+
+Compute Requirements
+-manage memory/CPUs, resize instances
+-GPU/graphics are OPTIONAL
+
+Storage Requirements
+-how is performance measured for storage? I/O requests measured in operations per second
+-also depends on solid state drive and hard disk drive
+-what is a bucket? a cloud storage resource
+
+Network Requirements
+-resembles on-prem networks with vm advantages like scalability, easy to modify, and cost optimization
+-VLANs, VPNs, web firewalls
+
+Performance Requirements
+-performance minimums/expectations to watch out for, region
+-resource access speed, data proximity, network latency, storage i/o, DB access
+
+Compliance Requirements
+-Legal
+-Regulations for industry
+-Nation specific: depends on nation
+-business rules for larger enterprises
+-local data center service requirements
+
+Security Requirements
+-cybersecurity attack types? DDoS, ransomware, identity theft, scams, phishing, social eningeering, leaks
+-What to protect?
+--proprietary business info, intellectual property, customermprivate data, employee private data
+
+Overlay: abstract media/switches/routers, define logical networks without worrying about physical infrastructure
+VM networks: basic networking to VMs and can participate on physical networks
+TYPES:
+-external: allow access to host network interface card and network
+-internal: allow network access to host itself and other VMs but not external access
+-priviate: network only with other VMs but not host or beyond
+
+Q: What is a technique that saves only the first instance of each file and uses pointers to reference duplicate copies?
+A: Data deduplication
+
+Q: Trending response patterns, load levels, and specific event types can trigger:
+A: Automatic scaling
+
+Q: What are the two main areas that performance and optimization can be divided into?
+A: Resource availability and app issues

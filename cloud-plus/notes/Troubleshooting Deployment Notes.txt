@@ -1,0 +1,23 @@
+Q: When a CSP or ISP has an outage, what can you do to verify?
+A: Check for reported outages/incidents, look at logs and cloud instance tags
+
+Q: What can you check for issues with latency?
+A: misconfiguration of load balancer/network device. storage capacity, oversubscription.
+
+Q: How can you address issues with applications in containers?
+A: Make sure the hosting app and container engine are running, Make sure the image is valid and there's enough compute resources
+
+Q: How can you address issues with scaling?
+A: Check scaling configurations for resource adequacy and scaling settings
+
+Q: Where's a good place in a cloud platform to check for licensing issues?
+A: Billing and accounting dashboard
+
+Q: What can cause issues with vendor and platform migrations?
+A: legacy app don't always function in cloud environment. misconfigured migration script. OS version compatibility.
+
+Q: How can you solve issues with vendor and platform integration?
+A: Validate integration configurations. Troubleshoot issues arising from vendor integrations.
+
+Q: How can you solve issues with API limits?
+A: Monitor API usage and ensure it adheres to limits. Request API limit increases if necessary.

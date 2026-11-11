@@ -1,0 +1,146 @@
+PROVISION CLOUD RESOURCES
+
+Compute Respiurces: 
+-resource allocation: cpu, memory, storage, networking
+-virtualization: virtual CPU and GPU (vCPU, vGPU)
+-resource roles: compute-intensive, data-intensive
+
+Manage Virtualization
+-Hypervisiors: (they create/run/mamage VMs)
+--type 1: run directly on server hardware
+-type 2: runs as app wintin server OS
+
+-Oversubscription: allocate more resources to VMs than host has available
+--usually used for multiple VMs at once
+
+Provision Compute Resources
+-preconfigured BM instances
+-select instance
+-match requirements
+-consider multi-threading
+
+**very important to know**
+Preconfigured VM instances
+-instances have CPU, GPU, memory, storage, network settings for different situations
+-like templates
+-amazon: general purpose, compute optimized, memory optimized, accelerated computing, storage optimized (input/poutpot performance), HPC optimized (high performance processors)
+
+Multi-threading? Divide tasks among multiple cores to operate simultaneously
+How to calculate vCPU? it's number of cores times number of threads
+
+Provision Graphics Processing Unit Resources
+-can offload CPU tasks to GPU, good for visual stuff like games
+-types: shared vGPUs, pass-thurough GPUs
+
+Compute Requirements
+-manage memory/CPUs, resize instances
+-GPU/graphics are OPTIONAL
+
+Storage Requirements
+-how is performance measured for storage? I/O requests measured in operations per second
+-also depends on solid state drive and hard disk drive
+-what is a bucket? a cloud storage resource
+
+Network Requirements
+-resembles on-prem networks with vm advantages like scalability, easy to modify, and cost optimization
+-VLANs, VPNs, web firewalls
+
+Deploy AWS Virtual Machine?
+-EC2 Dash -> launch instance
+-name instance
+-select OS
+-define CPU/memory
+-define settings: auth key pairs, network settings, storage requirements
+
+Hyperconvered Virtualization
+-combo CPU/memory/storage/network config into one entity
+-precompiled package/template
+-easy to deploy and maintain, can't be seperated
+
+Performance Requirements
+-performance minimums/expectations to watch out for, region
+-resource access speed, data proximity, network latency, storage i/o, DB access
+
+Coimpliance Requirements?
+-Legal
+-Regulations for industry
+-Nation specific: depends on nation
+-business rules for larger enterprises
+-local data center service requirements
+
+Securituy Requirements
+-cybersecurity attack types? DDoS, ransomware, identity theft, scams, phishing, social eningeering, leaks
+-What to protect?
+--proprietary business info, intellectual property, customermprivate data, employee private data
+
+Availability Requirements
+--needs to be available mosyt of the time and uninterrupted: customer, employee, and other services
+
+Cost Requirements
+--cost changes and resources needed to be managed on sub basis
+--can monitor with reports: resource metering, auditing
+--optimize services for costs
+--consider: capital expenditures VS operating expenses (you own it VS. you rent it)
+
+
+ASPECTS OF CLOUD MIGRATION
+moving on-prem data/apps/resources to cloud
+
+tpes of migrations?
+-on-prem to cloud
+-cloud to on-prem
+-cloud to cloud
+
+Steps for cloud-to-cloud?
+-make identity and access management IDs and permissions
+-set up VPN connection
+-configure network access requirements
+-make cloud extensions
+-install migration packages for VMs
+-test migration
+-migrate in groups and test
+
+Phases of cloud migration?
+-assessment and discovery for current systems, planning, implementation, optimize cost/performance/security
+
+Types of virtualization migrations?
+-physical to virtual P2V
+-virtual to physical V2P
+-Virtual to virtual V2V
+
+Migration phases?
+-assessment, planning, deployment, optimize
+
+General steps for VM migration tools?
+-save physical server config/data as snapshot
+-allocate resoutces to VM
+-use tool to load snapshot into VM
+
+** very important part, very testable so know this**
+Cloud migration strategies?
+-rehosting (no modification needed, take it to cloud)
+-replatforming (modify the app but not externsive redvelopment)
+-repurchasing (drop old app and replace with modern cloud ready app)
+-retiring (drop app, don't replace it)
+-refactoring (restructure/optimize existing app)
+-retaining (keep app as on-prem traditional deployment)
+-rearchitect: revise whole architecture to be cloud ready
+-hybrid: mix of the above
+
+MIGRATION CONSIDERATIONS
+
+Whato to consider for cloud migration?
+-platform compatbility-resources, storage and speed, security
+-cost: on demand vs. spot instances, scaling options
+-service availability: how many regions where it's available, uptime, redundancy
+-vendor lock-in: how is cost in money/time, planning needed to diversify and plan for future
+-compute: compontents and performance, migration, scaling, billing
+-storage: how fast and expensive it is to trasfer, how fast, type of storage, how integrity it is
+-networking: bandwidth, security, access control, IP addressing, security controls
+-mamnagement: amount of overhead, regulations, compliance, monitoring performance, monitoring cost, security
+
+Instance types for cost?
+-spot: bid on unused cloud capacity
+-dedicated: reserve physical hardware for needs
+-on-demand: flexible but more expensive than spot
+-reserved: long-term commitment for cost saviings

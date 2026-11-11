@@ -1,0 +1,62 @@
+Q: Defining the state of configuration with code and then applying it to infrastructure devices is called:
+A: Infrastructure as Code
+
+Q: Imperative (specific commands executed step by step) and declarative (desired state declared for an automation tool to implement) are:
+A: Approaches to Infrastructure as Code
+
+Q: Configuring applications through code integrated into CI/CD pipelines using a central code repository is called:
+A: Configuration as Code
+
+Q: An agentless tool that pushes configuration using SSH is:
+A: Ansible
+
+Q: A configuration management tool that pulls configuration and fixes drift is:
+A: Puppet
+
+Q: A configuration management tool that uses cookbooks to configure systems is:
+A: Chef
+
+Q: A configuration management tool designed for fast parallel remote execution is:
+A: Salt
+
+Q: Major.minor.patch (for example, 1.1.5) is the standard:
+A: Versioning format
+
+Q: Two common code formats for IaC and DevOps are:
+A: JSON and YAML
+
+Q: Automatically testing and building code when committed to prevent failed merges is the:
+A: Main purpose of CI/CD
+
+Q: Configuring a series of automated tasks or microservices to run as a workflow with outputs used as conditions for subsequent tasks is:
+A: Orchestration in DevOps
+
+Q: Development, code merge, testing, and storing code in the repository is:
+A: Continuous integration
+
+Q: Deployment of code to systems based on scaling and utilization requirements is:
+A: Continuous deployment
+
+Q: Virtual machine images, container images, executables, application binaries, and libraries are common types of:
+A: Deployment artifacts
+
+Q: GitHub's CI/CD system that runs tasks when repository events occur is:
+A: GitHub Actions
+
+Q: Pushes, pulls, releases, and scheduled events are:
+A: Events that can trigger a GitHub Actions workflow
+
+Q: YAML files is the format for:
+A: GitHub Actions workflows
+
+Q: Defining triggers to initiate communication between decoupled services or applications is:
+A: An event-driven architecture
+
+Q: A communication protocol that uses XML is:
+A: Simple Object Access Protocol
+
+Q: A protocol for invoking functions on remote systems is:
+A: Remote Procedure Call
+
+Q: An open-source API query language that allows requesting only the information needed is:
+A: GraphQL
