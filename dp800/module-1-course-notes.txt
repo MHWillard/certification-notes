@@ -1,0 +1,485 @@
+**DESIGN AND DEVELOP DATABASE SOLUTIONS**
+
+Proper database object design is fundamental to building high-performance, scalable, and maintainable SQL solutions 
+--permanent, tricky, changing them can lock tables for hours
+--do it right up front
+
+learn how to: 
+design right types of tables for workloads
+use specialized types for different scenarios
+implement constraints and validations
+partitioning strategies
+
+good database object design impacts:
+performance, integrity of data, ease of maintenance, AI integration, ease of scalability
+
+
+PLATFORM CHOICES
+On-Premises: higher dedicated cost and admin, but more control and privacy
+Cloud: increasingly shared lower cost and lower admin, but less control
+Physical > Virtual > IaaS > PaaS > SaaS
+
+Azure manages physical servers/networking/OS patches/updates
+you manage: tables/indexes/constraints/data
+
+Azure SQL Database: PaaS, lets you do database stuff without fussing over intrastructure
+TIERS: Hyperscale has multiple nodes and provisions outward as needed
+Serverless: compute based on workload demand and pauses when idle
+
+Intelligent query processing and automatic tuning analyze workload patterns to recommend or automatically create indexes.
+Automatic plan correction detects and fixes query regressions when proper indexing and statistics are in place.
+
+Azure SQL Managed Instance: automatic patches
+single instance or pool of instances, fully managed
+
+In-Memory OLTP in the Business Critical tier enables memory-optimized tables and natively compiled stored procedures for latency-sensitive workloads.
+Instance-level features include SQL Server Agent, Service Broker, linked servers, cross-database queries with three-part naming, and database mail. 
+The Managed Instance link uses distributed availability groups to synchronize data from SQL Server to Azure in near real-time
+
+SQL Server on Azure Virtual Machines provides Infrastructure-as-a-Service (IaaS) deployment where you control the SQL Server instance, database engine configuration, and underlying Windows or Linux operating system.
+The SQL IaaS Agent extension unlocks management capabilities including automated backups, automatic patching during maintenance windows, Azure Key Vault integration, and tempdb configuration through the Azure portal. 
+The SQL best practices assessment validates your configuration against recommended settings, while I/O performance analysis helps identify storage bottlenecks.
+
+SQL database in Microsoft Fabric is a developer-friendly transactional database built on Azure SQL Database technology that automatically integrates with Fabric's analytics ecosystem.
+uses the same SQL Database Engine as Azure SQL Database, combining OLTP capabilities with built-in analytics integration
+
+Automatic mirroring replicates changes from your operational tables into OneLake as Delta Parquet files. As you insert, update, and delete data, Fabric automatically synchronizes those changes without requiring ETL pipelines, triggers, or extra configuration.
+You can query across multiple data sources using familiar three-part naming syntax to join your SQL database with other Fabric warehouses, lakehouses, and even other SQL databases in cross-database queries.
+
+automatic index creation that monitors query patterns and creates indexes without manual intervention.
+platform also supports AI development with semantic search and retrieval-augmented generation (RAG).
+
+BUILD TABLES
+tables: organizing data into rows and columns that represent entities and their attributes.
+In relational systems, tables define the structure for storing transactional data, enforce relationships through foreign keys, and provide the foundation for queries and reporting.
+
+fact tables storing measurable events
+dimension tables providing context for analysis.
+data types, column sizing, constraints, and relationships—directly impact storage efficiency, query performance, data integrity, and scalability
+
+data type determines precision, storage space, and size for query speed so choose right the first time
+
+Table size affects backup and restore times, index rebuild durations, and query performance: also cloud storage costs
+
+Use appropriate data types - Smaller data types reduce storage and improve performance
+Consider table size early - Estimate row size and total table size to plan storage and indexing
+Implement meaningful constraints - Ensure data quality at the database level
+Plan for growth - Design tables to handle future data volume
+Index strategically - Index columns used in WHERE, JOIN, and ORDER BY clauses
+Choose columnstore for analytics - Use columnstore indexes for large tables with analytical queries
+Normalize when appropriate - Balance normalization with query performance needs
+Monitor row and page compression - Enable compression for large tables to save storage
+
+OPTIMIZE INDEXES
+Indexes are data structures that accelerate data retrieval by creating optimized lookup paths to table rows.
+An index works like a book's index: instead of reading every page to find an article, you consult the index to jump directly to relevant pages
+
+Designing efficient indexes is key to achieving good database and application performance. A lack of indexes, over-indexing, or poorly designed indexes are top sources of database performance problems.
+
+Rowstore indexes organize data in row format, storing all columns of a row together on the same page, which makes them optimal for transactional workloads that retrieve complete records or perform frequent updates.
+
+A clustered index sorts and stores the data rows in the table based on their key values. These key values are the columns included in the index definition. There can be only one clustered index per table, because the data rows themselves can be stored in only one order.
+Clustered indexes are best when you need efficient range queries, stable and narrow keys, or a natural sort order such as identity columns or date fields because they define the physical row order and optimize scans over ordered data.
+
+A nonclustered index has a structure separate from the data rows. A nonclustered index contains the nonclustered index key values and each key value entry has a pointer to the data row that contains the key value. You can create multiple nonclustered indexes on a table or indexed view.
+Nonclustered indexes are ideal when you need fast lookups for specific predicates, joins, or sorting patterns that don't align with the clustered key, or when you want to cover a query by including extra columns to avoid key lookups.
+
+columnstore: storing data column-by-column, reading only the columns required for your query, for analytics
+
+A columnstore index organizes data into rowgroups
+Within each rowgroup, the engine stores each column separately as a column segment
+
+When you insert data, small batches first go to a deltastore—a temporary rowstore structure using a B+ tree index.
+Once a delta rowgroup accumulates enough rows (at least 102,400), a background process called the tuple-mover compresses it into the columnstore.
+
+A Clustered Columnstore Index (CCI) is a type of columnstore index that becomes the primary storage structure for the entire table, replacing any existing clustered rowstore index.
+Unlike a nonclustered columnstore index (NCCI), which creates a secondary columnar copy alongside the rowstore table, a CCI stores all table data exclusively in columnar format.
+
+A Nonclustered Columnstore Index (NCCI) creates a separate columnar copy of selected columns alongside the existing rowstore table, allowing the same table to serve both transactional and analytical workloads efficiently.
+
+You can monitor the health and performance of your columnstore indexes by querying the sys.dm_db_column_store_row_group_physical_stats dynamic management view.
+
+TABLE TYPES
+SQL Server support specialized table types designed for specific scenarios and workloads beyond standard disk-based tables.
+
+In-memory optimized tables
+Traditional disk-based tables incur latency from disk I/O, even with caching.
+In-memory tables eliminate this by keeping data entirely in RAM with lock-free, optimistic concurrency.
+- Good for: session state storage, real-time analytics, high-frequency OLTP, caching layer, staging tables
+
+Temporal tables automatically track the complete history of data changes. When you update or delete a row, SQL Server automatically stores the previous version in a linked history table with timestamps showing when that version was valid.
+- good for: compliance, auditing, troubleshooting, trend analysis, data recovery, slowly changing dimensions
+
+External tables enable data virtualization to query data where it lives without moving it, saving storage costs and ETL complexity.
+- good for: data lake integration, data exploration, cost optimization, federated queries, archival storage
+
+Ledger tables use cryptographic verification inspired by blockchain technology to create tamper-evident records that can be independently verified
+- good for: financial transactions, supply chain, legal records, healthcare, government
+- Two types:
+1. Updatable ledger tables allow INSERT, UPDATE, and DELETE operations while tracking all changes cryptographically. The system automatically stores previous versions in a history table, similar to temporal tables, but with the added benefit of tamper-proof verification. 
+2. Append-only ledger tables only allow INSERT operations, creating truly immutable records for scenarios requiring absolute data integrity.
+
+Graph tables simplify relationship modeling but require learning new syntax. They provide intuitive modeling of connected data, simpler queries for relationship traversal, and better performance for multi-hop queries
+-Two types:
+1. Node tables store entities and automatically include a hidden $node_id column that uniquely identifies each node. 
+2. Edge tables store relationships between nodes and include hidden columns $edge_id, $from_id, and $to_id to maintain connections.
+
+CONSTRAINTS
+SQL constraints are rules for data in a table.
+Constraints are used to prevent insertion of invalid data in a table, and ensures the accuracy and reliability of the data in the table. If there is any violation between the constraint and the data action, the action is aborted
+
+Primary key constraints: When you specify a primary key constraint, the Database Engine automatically creates a unique index for the primary key columns. A table can contain only one primary key constraint, and all columns defined within a primary key constraint must be defined as NOT NULL.
+
+A foreign key constraint prevents changes to data in the primary key table if those changes invalidate the link to data in the foreign key table.
+
+Unique constraints ensure no duplicate values are entered in specific columns that don't participate in a primary key.
+
+Check constraints enforce domain integrity by limiting the values accepted by one or more columns.
+
+Default constraints provide default values when no value is specified during INSERT operations
+
+A sequence object is a user-defined schema-bound object that generates a sequence of numeric values according to the specification with which the sequence was created.
+- good for needed number series and sorted sequence values
+
+Unlike identity columns, sequence values aren't automatically protected after insertion into a table. Also, uniqueness isn't automatically enforced for sequence values. 
+
+JSON COLUMNS AND INDEXES
+some data varies from record to record. The attributes you need to store depend on the type of item, the source of the data, or choices made by users. 
+Traditional table design forces you to either create many columns that are empty for most rows, or split data across many tables. 
+JSON columns offer another option: store the variable parts as JSON while keeping the predictable parts in regular columns.
+
+when to use: user preferences, API responses, audit logs, multi-tenant applications, flexible metadata
+
+SQL Server 2025 introduces a native json data type that stores JSON documents in a binary format
+To read values from JSON, you use JSON functions like JSON_VALUE to extract a single value or JSON_QUERY to return an object or array.
+
+JSON columns work best for data that varies by record. 
+Use JSON for semi-structured data, Index frequently queried paths, Validate required properties, Balance flexibility with structure
+
+PARTITIONING TABLES
+Table partitioning divides large tables into smaller, more manageable pieces (partitions) while keeping them as a single logical table. Your application sees one table, but the database engine manages multiple physical segments that can be independently maintained, archived, or queried.
+
+plan and do it right the first time otherwise you will seriously fuck things up
+
+Partitioning involves several key components: 
+-a partition function that defines how data is divided
+-a partition scheme that maps partitions to filegroups
+-partitioning column that determines which partition each row belongs to.
+
+benefits:
+-queries filter by partition key access only relevant partitions
+-parallel processing where multiple partitions are processed simultaneously across CPU cores
+-aster statistics calculated per partition instead of the entire table
+-and index seeks where smaller partitions mean shallower B-trees.
+
+operational benefits:
+granular maintenance where you rebuild indexes on the current partition while older partitions remain online
+-fast archival by switching old partitions to archive tables in seconds through metadata operations
+-improved availability from maintaining partitions independently
+-tiered storage by moving older partitions to cheaper, slower storage.
+
+partition key selection criteria:
+-Query patterns: 80%+ of queries filter by this column
+-Data distribution: Even distribution across partitions (no single partition with 90% of data)
+-Maintenance alignment: Matches archival/purge patterns (date columns for time-based archival)
+-Stability: Value doesn't change after INSERT (avoid partitioning on updateable columns)
+
+Range partitioning divides data based on value ranges—most commonly dates.
+ideal for time-series data, sequential data, numeric ranges
+
+You can use RANGE partitioning with string or categorical values like regions. The partition function places values based on sort order.
+
+When you partition a table, indexes can be aligned or nonaligned. 
+- Aligned indexes use the same partition function as the table. Each index partition matches a table partition
+- Nonaligned indexes use different partitioning or no partitioning. They can't use partition switching and aren't supported on tables with more than 1,000 partitions.
+
+partition maintenance:
+querying partition metadata, adding new partitions as data grows, and removing old partitions during archival. 
+
+partitioning best practices:
+- Align indexes with table partitions
+- Monitor data distribution
+- Automate partition management
+- Avoid over-partitioning: too many partitions create overhead
+- Include partition key in primary key
+
+----------------------
+Views - Virtual tables that simplify data access and provide security boundaries
+Stored procedures - Precompiled T-SQL code blocks for complex operations and data modifications
+Scalar functions - Reusable calculations that return single values
+Table-valued functions - Functions that return result sets for use in queries
+Triggers - Automatic responses to data modifications or database events
+
+
+VIEWS
+A view is a virtual table based on a SELECT statement. Unlike physical tables, views don't store data themselves. Instead, they retrieve data from underlying tables each time you query them.
+You can also create views with calculated columns. 
+
+Specify column names explicitly instead of using SELECT *. Explicit columns make views more maintainable and prevent unexpected results when underlying tables change.
+Use the WITH CHECK OPTION clause when views will handle data modifications. This option ensures that INSERT and UPDATE statements through the view only affect rows visible in the view.
+
+Keep view definitions focused on a specific purpose.
+Use views to simplify complex queries that multiple applications or users need to execute.
+Consider views when you need to restrict data access at the column or row level.
+
+STORED PROCEDURES
+A stored procedure is a compiled collection of T-SQL statements that SQL Server stores and executes as a single unit.
+With stored procedures, the execution plan is cached after the first run
+
+Parameters: use the @ symbol followed by a parameter name and data type.
+@StartDate datetime = NULL
+
+Output parameters let you return values to the calling application. You define them using the OUTPUT keyword:
+@TotalAmount decimal(10,2) OUTPUT
+
+Try catch error handling:
+Always check @@TRANCOUNT before rolling back transactions in the CATCH block. This prevents errors if the transaction already completed or was never started.
+
+Practices:
+- Use schema-qualified names for all objects: dbo.Orders
+- Implement parameter validation at the start of your procedure.
+- Use meaningful names that describe what the procedure does.
+
+SCALAR FUNCTIONS
+Scalar functions: encapsulate reusable logic and return a single value.
+A scalar function accepts zero or more parameters and returns a single value of a specified data type. Unlike stored procedures, scalar functions can be embedded directly in SQL expressions wherever you would use a column or variable.
+
+First, keep your scalar functions deterministic whenever possible. A deterministic function always returns the same result given the same input parameters.
+Scalar functions shouldn't modify database state or have dependencies on external resources.
+When you use a scalar function in a WHERE clause or SELECT list with large tables, SQL Server may execute the function for every row. This can significantly impact query performance. For such scenarios, consider inline table-valued functions as an alternative.
+
+TABLE-VALUED FUNCTIONS
+Table-valued functions let you encapsulate complex query logic into reusable components that return result sets (tables). You can call these functions directly in queries, just like tables or views
+
+- Inline table-valued function: Contains a single SELECT statement and returns results directly. With inline functions, you don't define the table structure—SQL Server infers it from your SELECT statement.
+- Multi-statement table-valued function: Uses a BEGIN...END block and explicitly declares the structure of the returned table. This type gives you more control when you need to execute multiple statements, perform complex calculations, or build the result set iteratively. 
+
+CREATE FUNCTION dbo.GetCustomerOrders
+(
+    @CustomerID INT
+)
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT OrderID, OrderDate, TotalAmount, Status FROM Sales.Orders WHERE CustomerID = @CustomerID
+);
+
+The CROSS APPLY operator calls the function for each row from the Customers table, though in this example, the function parameters are constants
+
+TRIGGERS
+Triggers are special stored procedures that automatically execute when specific events occur in your database. 
+
+SQL Server supports two main categories of triggers: DML (Data Manipulation Language) triggers and DDL (Data Definition Language) triggers. 
+DML triggers respond to changes in table data, while DDL triggers respond to schema changes like CREATE, ALTER, or DROP statements.
+
+DML triggers monitor and respond to data changes in tables or views. You define them as either AFTER triggers or INSTEAD OF triggers.
+
+- Keep your trigger logic focused and minimal. Execute only essential operations within the trigger body.
+- Avoid recursive operations where a trigger modification causes the same trigger to fire again. Set the RECURSIVE_TRIGGERS database option
+- Handle errors properly within triggers. If a trigger encounters an error and you don't handle it, SQL Server rolls back both the trigger and the original statement:
+
+COMMON MISTAKES
+- Using scalar functions in WHERE clauses on large tables— The function executes for every row, degrading performance. Consider inline table-valued functions or rewriting the logic.
+- Creating triggers for logic that stored procedures handle better— Triggers execute implicitly and can be hard to debug. Use them only when automatic execution is essential.
+- Building complex views that nest other views— Deeply nested views become difficult to optimize and maintain. Keep view definitions focused and shallow.
+- Choosing stored procedures when a function would integrate better— If you need the result in a SELECT statement, a function provides cleaner syntax than EXEC with temp tables.
+
+-----
+
+COMMON TABLE EXPRESSIONS
+Common Table Expressions (CTEs) provide a way to define temporary named result sets that exist only during a single query
+A Common Table Expression is defined using the WITH clause, followed by the CTE name, an optional column list, and a query that defines the result set.
+
+Advantages: readability, can self-reference itself, multiple references, modular
+
+Nonrecursive CTEs define a result set based on a straightforward query that doesn't reference itself.
+
+Recursive CTEs reference themselves to process hierarchical or graph-like data structures. 
+A recursive CTE consists of two parts: an anchor member that provides the initial result set, and a recursive member that references the CTE to build upon previous results.
+Recursive CTEs excel at generating sequences of numbers or dates without requiring a physical numbers table.
+
+WINDOW FUNCTIONS FOR ANALYTICS
+Traditional aggregate functions collapse rows into groups, losing row-level information. Window functions solve this challenge by performing calculations across a set of rows related to the current row, without collapsing the result set.
+
+Window functions calculate values across a "window" of rows defined by the OVER clause. Unlike regular aggregate functions, window functions don't group rows into a single output row. Instead, they compute values across related rows while preserving all original rows in the result.
+
+
+PROCESS JSON WITH BUILT-IN FUNCTIONS
+JSON_VALUE() extracts a scalar value (string, number, boolean) from a JSON string:
+    SELECT JSON_VALUE(@json, '$.customer.id') AS CustomerID
+JSON_QUERY() extracts a JSON object or array (nonscalar values)
+    SELECT JSON_QUERY(@json, '$.customer') AS CustomerObject
+-JSON_QUERY() preserves the JSON structure, returning objects and arrays as valid JSON strings
+
+OPENJSON is a table-valued function that transforms JSON data into a relational rowset. 
+--OPENJSON returns three columns: key (the array index or property name), value (the JSON content), and type (a number indicating the JSON data type: 0=null, 1=string, 2=number, 3=boolean, 4=array, 5=object).
+
+JSON_OBJECT() creates a JSON object from key-value pairs.
+JSON_ARRAY() creates a JSON array from values.
+JSON_ARRAYAGG aggregates values from multiple rows into a single JSON array. 
+    SELECT JSON_ARRAYAGG(soh.SalesOrderID) AS OrderIds
+
+Validating and checking JSON:
+ISJSON validates whether a string contains valid JSON.
+JSON_PATH_EXISTS checks whether a specific path exists in a JSON document
+
+Computed columns let you extract JSON values once and store them in a queryable format that supports indexing.
+
+For comprehensive JSON output from queries, use FOR JSON PATH or FOR JSON AUTO
+
+REGULAR EXPRESSIONS
+Regular expressions (regex) use a pattern syntax to describe text patterns.
+Use regex to match various types of patterns for more flexibility than using LIKE
+
+REGEXP_LIKE returns 1 (true) if a string matches a regular expression pattern, or 0 (false) if it doesn't.
+REGEXP_REPLACE finds all occurrences of a pattern and replaces them with a specified string. 
+REGEXP_SUBSTR extracts the portion of a string that matches a regular expression pattern.
+REGEXP_INSTR returns the starting position of a pattern match within a string.
+REGEXP_COUNT returns the number of times a pattern appears in a string.
+REGEXP_SPLIT_TO_TABLE is a table-valued function that splits a string into rows based on a delimiter pattern:
+REGEXP_MATCHES is a table-valued function that returns all pattern matches as separate rows:
+
+FUZZY STRING FUNCTIONS
+ Fuzzy string matching functions help you find records that are similar but not identical, because data doesn't always perfectly match
+* Edit distance (Levenshtein distance) counts the minimum number of single-character operations (insertions, deletions, substitutions) needed to transform one string into another.
+* Similarity scores express the relationship between strings as a percentage or ratio, where higher values indicate greater similarity.
+
+The EDIT_DISTANCE function returns the Levenshtein distance between two strings, which is the minimum number of edits required to transform one string into the other.
+EDIT_DISTANCE_SIMILARITY returns a normalized similarity score between 0 and 100, where 100 represents identical strings.
+
+The Jaro-Winkler algorithm is designed for comparing names and short strings. It gives higher scores to strings that match from the beginning.
+The Jaro-Winkler score ranges from 0 to 1, where 1 indicates identical strings.
+
+The key to efficient fuzzy matching is reducing the candidate set before applying the expensive fuzzy functions. 
+
+GRAPH QUERIES
+Graph data:
+* Nodes (boxes) represent entities like people and products
+* Edges (arrows) represent relationships between nodes. Arrow direction indicates the relationship direction (Alice knows Bob, not necessarily Bob knows Alice).
+
+Graph queries with dedicated node/edge tables
+match patterns with syntax instead of joins
+
+Node tables store entities in your graph. Create them using CREATE TABLE with the AS NODE clause
+Edge tables represent relationships between nodes. Create them using CREATE TABLE with the AS EDGE clause:
+
+The MATCH clause uses a pattern syntax to specify the relationships you want to find. 
+    SELECT a FROM b WHERE MATCH(Employee-(r)->Manager);
+    [(Node1)-(Edge)->(Node2)]
+    chain: WHERE MATCH(Person1-(k1)->Person2-(k2)->Person3)
+* arrows can go either way
+
+You can use SHORTEST_PATH to find the shortest connection across a variable number of relationships.
+    WHERE MATCH(SHORTEST_PATH(StartPerson(-(k)->ReachablePerson){1,3}))
+
+CORRELATED SUBQUERIES
+Correlated queries are subqueries that reference columns from the outer query, creating a dependency that causes the subquery to execute once for each row processed by the outer query.
+--kind of like a nested loop
+
+Correlated subqueries in the WHERE clause: each row is evaluated against a dynamically calculated value based on that row's attributes.
+
+The EXISTS operator combined with a correlated subquery tests whether any matching rows exist in a related table, returning a simple true or false result.
+
+Correlated subqueries in the SELECT clause calculate a separate value for each row in your result set.
+
+Correlated subqueries can access values from previous or subsequent rows based on ordering criteria
+
+Good correlated subquery performance:
+-check execution plans
+-test on realistic data volumes
+-use indexes accordingly
+
+TRY...CATCH
+Make sure to include good error handling with TRY...CATCH blocks
+--can return error number, message, severity, the stored procedure or trigger, etc.
+
+The @@TRANCOUNT function tells you whether a transaction is active: use this to roll back transitions
+
+The THROW statement raises an exception with a custom error number and message.
+RAISERROR: formatted message with throw 
+
+You can set XACT_ABORT ON to cause SQL Server to automatically roll back the transaction when any error occurs,
+
+-----
+
+AI-ASSISTED DEV TOOLS AND SECURITY IMPACT
+Microsoft AI tools: github copilot, Fabric Copilot
+
+Model Context Protocol (MCP) extends AI assistant capabilities by allowing them to connect directly to your data sources.
+
+important to consider:
+-personally identifable information, financial records, healthcare data and other sensitive data classifications
+-compliance
+-intellectual property
+-access controls to AI
+
+-don't dump creds into prompts
+-use environmental variables
+-review before committing
+-give it least-privilege security
+-check for data exposure
+
+MCP connections/traffic should have:
+-principles of least privilege
+-network security
+
+MODEL CONTEXT PROTOCOL OPTIONS
+Selecting the right model and configuring Model Context Protocol (MCP) tools significantly improves the relevance and accuracy of AI suggestions for your database work.
+
+Model Context Protocol (MCP) is an open standard that allows AI assistants to connect directly to external data sources and tools. Instead of the AI assistant only seeing the code in your editor, MCP enables it to query your actual database schema, sample data, and metadata in real time.
+
+MCP follows a client-server architecture:
+
+MCP Host: Your AI environment (GitHub Copilot, Claude, etc.)
+MCP Client: The protocol client that connects to MCP servers
+MCP Server: A service that exposes specific data sources or tools
+
+SQL MCP Server: Connects to SQL Server and Azure SQL databases using Microsoft's open-source solution built on Data API builder.
+
+Microsoft Fabric MCP Server: Connects to Fabric data agents as MCP servers, enabling AI assistants to query lakehouses, warehouses, and SQL databases within Fabric workspaces.
+
+Azure MCP Server: Provides broader Azure resource integration, including database services.
+
+best practices:
+-start with default model/MCP setting then adjust
+-match models to right types of tasks
+-set up MCP connections with least-privilege access
+-test confiugurations and verify suggestions
+
+COPILOT INSTRUCTION FILES
+Custom instruction files are markdown documents that contain guidance for GitHub Copilot. When you place these files in specific locations, Copilot includes their contents as context when generating suggestions.
+
+two main types of instruction files:
+
+Repository instructions (copilot-instructions.md): Apply to everyone working in a specific repository. Stored in the .github folder at the repository root.
+
+Prompt files (.prompt.md): Reusable prompts for specific tasks or scenarios. Stored in the .github/prompts folder and can be referenced in chat conversations.
+
+best practices:
+-be specific
+-provide examples
+-prioritize what guideline goes first
+-test iteratively
+-keep it current
+
+
+CONNECT TO MCP SERVER ENDPOINTS
+For SQL Server and Azure SQL databases, you can use the SQL MCP Server or configure direct connections through supported tools.
+
+connect to MCP endpoints: Microsoft SQL Server, Azure SQL databases, and Fabric Lakehouse environments.
+
+What does a fabric lakehouse need to be a MCP server? Fabric data angent
+
+ommon authentication methods include:
+interactive authentication: browser prompt sign in
+Service principal: entra Id app with permissions
+API keys for auth
+
+make sure there isn't any network or firewall blocking, permissions for users are good
+
+best practices:
+-least-privilege access
+-seperate environmentS: dev, tes, prod
+-monitor connections with logging
+-keep configurations consistent

@@ -1,0 +1,474 @@
+SEUCRE, OPTIMIZE, AND DEPLOY DATABASE SOLUTIONS
+=====================
+<DATA SECURITY AND COMPLIANCE WITH SQL>
+Data security isn't just about preventing external attackers. You must protect sensitive information from unauthorized internal access, maintain compliance with regulations, and create accountability through detailed audit trails. 
+Security decisions made during development are far easier to implement than adding them later.
+
+DATA ENCRYPTION
+Database encryption operates at different layers, each solving a specific problem. Transparent Data Encryption (TDE) encrypts data at rest—think of it as protecting your database files on disk. 
+Column-level encryption targets specific sensitive columns, while Always Encrypted goes further by protecting data throughout its lifecycle, even during query processing.
+
+When you enable TDE, SQL Server automatically encrypts database files, transaction logs, and backups.
+TDE uses a database encryption key protected by a certificate stored in the master database.
+
+Column-level encryption works differently. You explicitly encrypt and decrypt data in your T-SQL code or application, you manage symmetric or asymmetric keys stored within the database.
+To encrypt data, open the symmetric key and use the ENCRYPTBYKEY function:
+Decryption follows a similar pattern using DECRYPTBYKEY:
+
+Always Encrypted takes yet another approach by keeping encryption keys outside the database engine entirely. Your client applications hold the encryption keys and handle all encryption and decryption.
+To get started with Always Encrypted, you first create a column master key (CMK) that protects your column encryption keys.
+
+When creating or altering tables, you specify the encryption type for sensitive columns:
+Use deterministic when you need to perform equality comparisons, joins, or filter with WHERE clauses—the same plaintext always produces the same ciphertext. Use randomized for stronger security when you don't need those query operations.
+
+TDE is your best choice when you need to protect data at rest without touching your application code. 
+Always Encrypted shines when you need to protect data from database administrators, or when sensitive data must stay encrypted even during query processing. 
+Column-level encryption works well when you need granular control over encryption and decryption,
+
+DATA MASKING
+When unauthorized users query masked columns, SQL Server returns obfuscated values based on masking rules you define. 
+
+Dynamic Data Masking supports four masking functions,
+The default function replaces the entire value with a fixed string.
+The email function reveals just the first character of an email address, replaces the middle with "XXX", and preserves the domain suffix.
+The random function displays numeric values as a random number within a range you specify. 
+The partial function gives you precise control. You specify how many characters to show at the start, what padding characters to use in the middle, and how many to show at the end
+
+The MASKED WITH clause specifies which function to use.
+By default, users see masked data unless they have elevated permissions. The UNMASK permission controls who sees the real values behind the masks.
+
+A common pattern is to create database roles for different access levels:
+Dynamic Data Masking works at the presentation layer, meaning the actual data can still be inferred through certain query patterns.
+
+ROW-LEVEL SECURITY
+Row-Level Security (RLS) enables you to control access to rows in a database table based on the characteristics of the user executing a query.
+RLS filters rows dynamically so users see only the data they're authorized to access.
+
+Row-Level Security uses two components that work together: security predicates and security policies.
+A security predicate is an inline table-valued function that returns 1 (true) or 0 (false) for each row. It receives the current user context and row values, then decides whether that user should see the row.
+
+A security policy binds your predicate functions to tables and specifies the type of filtering. 
+You can create filter predicates that silently exclude unauthorized rows from query results, or block predicates that prevent unauthorized insert, update, and delete operations.
+
+Once you've defined your predicate functions, create a security policy that applies them to tables:
+CREATE SECURITY POLICY TenantSecurityPolicy
+ADD FILTER PREDICATE Security.fn_TenantAccessPredicate(TenantID)
+    ON dbo.Orders
+WITH (STATE = ON);
+
+You can combine filter and block predicates in a single policy:
+
+Many organizations need hierarchical data access—managers should see their subordinates' data. You can implement this by combining RLS with a management hierarchy table.
+
+PERMISSIONS AND SECURE ACCESS
+SQL Server uses a hierarchical permission model where permissions granted at higher levels flow down to lower levels. Think of it as a cascade: server → database → schema → individual objects.
+
+At the server level, permissions control sign-in management and server configuration. Database-level permissions govern actions within a specific database. 
+Schema-level permissions apply to all objects within a schema
+object-level permissions target specific tables, views, stored procedures, and functions.
+
+Three statements control permissions: GRANT gives users specific permissions, REVOKE removes previously granted permissions, and DENY explicitly blocks permissions—overriding any grants.
+
+Instead of granting permissions directly to users, create database roles that represent job functions. Assign permissions to roles, then add users to the appropriate roles:
+
+You can also nest roles to create hierarchical permission structures—adding someone to a parent role automatically gives them all child role permissions.
+
+Modern applications should use passwordless authentication whenever possible.
+SQL databases support multiple authentication methods. SQL authentication uses a username and password stored in the database. It's straightforward, but risky if credentials get compromised.
+Microsoft Entra authentication extends identity integration to cloud scenarios, working with Azure SQL Database, Azure SQL Managed Instance, SQL Server 2022+, and SQL databases in Microsoft Fabric.
+
+A managed identity is an identity that can be assigned to an Azure compute resource or any App hosting platform supported by Azure. 
+Once a managed identity is assigned on the compute resource, it can be authorized, directly or indirectly, to access downstream dependency resources.
+Managed identity replaces secrets such as access keys or passwords
+You can implement this for Azure database services
+
+connection string best practices:
+Store them in Azure Key Vault or environment variables, not in code
+Enable encrypted connections with Encrypt=True;TrustServerCertificate=False
+Limit network access using firewall rules and private endpoints
+
+AUDITING
+Auditing captures database events and writes them to an audit log.
+
+Make it a habit to audit permission assignments regularly to ensure they still align with current job functions.
+By recording who accessed what data and when, auditing creates an accountability trail that supports both security monitoring and regulatory requirements.
+
+SQL Server, Azure SQL, and SQL databases in Microsoft Fabric offer built-in auditing capabilities
+
+SQL Server Audit uses the Extended Events infrastructure to record activity. You can write audit records to files, the Windows Security log, or the Windows Application log.
+SQL Server Audit requires creating a server audit object that defines where to write audit records, then creating audit specifications that define what to capture.
+Azure SQL Database auditing writes to Azure Blob Storage, Log Analytics, or Event Hubs.
+SQL databases in Microsoft Fabric use Fabric's activity logging and Microsoft Purview for audit data.
+
+common action groups for auditing include authentication events, permission changes, data access and tracking, and changes to schema
+
+For SQL Server, configure immutable storage for audit files and use Windows file system permissions to prevent deletion. For Azure SQL, configure storage with immutable blob storage and set retention policies in Azure Storage lifecycle management.
+
+retention practices:
+
+Define retention periods based on regulatory requirements (often seven years for financial data)
+Use immutable storage to prevent log deletion
+Implement log archival to cold storage for cost management
+Establish processes for audit log review and alerting
+
+SECURE ACCESS TO AI SERVICES
+AI-enabled database solutions often expose model endpoints that applications call to generate predictions, embeddings, or other AI-powered responses. Securing these endpoints protects both your AI models and the data they process.
+
+Model endpoints present unique security challenges compared to traditional database operations. These endpoints often process sensitive data, can incur significant costs per call, and may expose intellectual property embedded in fine-tuned models.
+protecting these endpoints requires authentication, authorization, and monitoring.
+
+In Azure SQL and SQL databases in Microsoft Fabric, you can call external AI services using stored procedures or functions that make HTTP requests. These calls must authenticate to the AI service, typically using API keys or Managed Identity.
+
+Managed Identity eliminates the need to store API keys in your database or application code. Instead, Azure manages the identity credentials automatically, and you grant that identity access to AI services.
+
+You can monitor AI endpoint usage to detect anomalies and keep costs under control.
+
+SQL databases in Microsoft Fabric handle AI endpoint access differently than Azure SQL. Instead of database-scoped credentials and Managed Identity, Fabric uses workspace roles and capacity-based access control.
+In Fabric, AI capabilities are tied to the workspace. Users with Contributor or higher workspace roles can invoke AI features like AI skills and Copilot. Access control happens at the workspace level rather than through database permissions.
+
+SECURE DATA API ENDPOINTS
+Modern database solutions expose data through various API endpoints, enabling applications to access information without writing traditional SQL queries.
+
+GraphQL endpoints provide flexible query capabilities, allowing clients to request exactly the data they need. This flexibility creates security challenges because clients can construct complex queries that might expose unintended data or consume excessive resources.
+REST endpoints follow a more structured pattern with predefined resources and operations. Security focuses on authentication, authorization for specific endpoints, and input validation. 
+MCP endpoints enable AI models and agents to interact with databases, providing context and executing actions. These endpoints require careful security consideration because AI systems may attempt operations that human users wouldn't, and prompt injection attacks can manipulate AI behavior.
+
+Disable introspection in production to prevent attackers from discovering your schema structure. Introspection queries reveal all available types, fields, and relationships.
+
+
+---------------------
+<OPTIMIZE DATABASE PERFORMANCE>
+---------------------
+DATABASE CONFIGURATION
+Azure SQL Database gives you two resource models and multiple service tiers. The combination you choose sets the ceiling on compute, memory, I/O, and storage for your workload.
+
+Azure SQL Database supports two resource models: vCore and DTU.
+The vCore model gives you direct control over virtual cores, memory, and storage. You pick the hardware generation, service tier, and compute tier independently.
+The DTU model bundles CPU, memory, and I/O into a single unit called a Database Transaction Unit (DTU). DTU-based tiers (Basic, Standard, and Premium) offer preconfigured resource packages.
+
+The vCore model has three service tiers: General Purpose, Business Critical, and Hyperscale.
+General Purpose separates compute and storage. The database engine runs on a compute node while data files reside on Azure Blob Storage.
+Business Critical integrates compute and storage on each node. The database engine and data files both use locally attached SSDs in an Always On availability group with three secondary replicas.
+Hyperscale uses a decoupled storage architecture with independent page servers and a multi-tiered cache.
+
+Within the vCore model, you also choose between two compute tiers: provisioned and serverless.
+Provisioned compute allocates a fixed number of vCores that stay available regardless of workload activity. You pay a fixed hourly rate.
+Serverless compute automatically scales vCores based on demand and bills per second for the compute used.
+
+Max degree of parallelism (MAXDOP) controls how many processor threads the engine assigns to a single query.
+You set MAXDOP at the database level with ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP.
+
+Automatic tuning monitors query performance and applies corrections without waiting for you to notice.
+FORCE_LAST_GOOD_PLAN detects plan regressions and forces the previous fast plan. Enabled by default.
+CREATE_INDEX identifies missing indexes, creates them, and verifies the improvement. Disabled by default.
+DROP_INDEX removes unused and duplicate indexes.
+
+Every database has a compatibility level that determines which query optimizer behaviors are available. New databases in Azure SQL Database default to level 170, or the highest available level.
+
+OPTIMIZE_FOR_AD_HOC_WORKLOADS solves this issue. When enabled, the engine stores a tiny compiled plan stub on first execution instead of the full plan. Only when the same query runs a second time does the engine compile and cache the full plan.
+
+Accelerated database recovery is always enabled in Azure SQL Database.
+recovery time stays constant regardless of how many active transactions were running when a failure occurred. It also provides instantaneous transaction rollback and aggressive log truncation.
+ADR stores row versions in a persistent version store (PVS) inside the database rather than in tempdb
+
+
+TRANSACTION ISOLATION LEVELS AND CONCURRENCY CONTROLS
+Isolation levels define how much one transaction can see of another transaction's uncommitted work. The SQL standard frames them around three concurrency side effects
+
+Dirty reads are defined as reading uncommitted data from another transaction, which can lead to incorrect behavior if that other transaction doesn't commit.
+Nonrepeatable reads occur when a transaction reads the same row twice and gets different values each time.
+Phantom reads happen when a transaction re-executes a query and sees new rows that weren't there before.
+
+Isolation levels matter most when your transactions span multiple statements since conflicts are more likely to occur
+
+With lock-based isolation, the database engine uses shared and exclusive locks to keep transactions from interfering with each other.
+READ UNCOMMITTED is the fastest and the riskiest isolation level. It skips shared locks on reads entirely, so there's no read-write blocking
+READ COMMITTED is the default isolation level in SQL Server and strikes a basic balance. Each read acquires a shared lock, grabs the data, and releases the lock right away.
+REPEATABLE READ goes a step further than READ COMMITTED. It holds shared locks on every row you read until your transaction completes.
+SERIALIZABLE takes care of everything previous levels do and more. It takes range locks that cover not just the rows you read but also the gaps between key values, blocking inserts into those ranges. 
+
+row-versioning isolation:
+ Instead of blocking behind locks, the database engine keeps previous versions of rows in a version store. When a transaction needs to read data that another transaction is modifying, it reads from the version store instead of waiting.
+With Read Committed Snapshot Isolation (RCSI) enabled, each read operation sees a snapshot of the data as it existed at the start of that statement. Writers still take locks on the rows they modify, but readers never block behind them.
+SNAPSHOT isolation takes this solution a step further. Instead of a per-statement snapshot, each read sees the data as it existed at the start of the entire transaction
+
+optimized locking used to handle write-write blocking on RCSI
+Transaction ID (TID) locking: Instead of holding individual key or row locks for every modified row, the engine takes a single exclusive lock on the transaction ID (TID). Other transactions that need to access the same row acquire a shared lock on the TID and wait for the modifying transaction to complete.
+Lock after qualification: Before a row is modified, the engine reads the latest committed version without acquiring a lock and checks whether the row matches the query predicate. Only rows that actually qualify get locked, and that exclusive lock is released as soon as the row update is complete
+
+EXECUTION PLANS AND DMVs
+Execution plan = instructions the query optimizer produces to retrieve and process data
+-defines which tables to access first
+-whether to use indexes or scan tables
+-how to join, filter, sort, and aggregate results
+Plans have cost, optimizer looks over multiple plans and selects lowest
+
+Two types:
+-Estimated: estimates and generates plan without running
+-Actual: gets actual capture of run performance during query execution
+
+Execution plans are read left to right, top to bottom. The first operators access the base tables, and the final operator produces the query result.
+
+Common issues:
+-Operator types tell you how the engine accesses data: scan, seek
+-Estimated versus actual row counts reveal whether the optimizer's assumptions match reality: based on statistics of data, update them for better accuracy
+-Key Lookup operators appear when the engine finds rows through a nonclustered index but needs extra columns from the clustered index, can do extra round trips; 
+-Thick arrows between operators represent the number of rows flowing between them. An unexpectedly thick arrow early in the plan often means a missing filter or index is letting too many rows through.
+-Missing index suggestions appear as green highlighted text at the top of the graphical execution plan in SSMS. When the optimizer detects that an index could significantly reduce the cost of a query, it surfaces a recommendation directly in the plan.
+
+Optimization opportunities:
+-keep statistics updated
+-filter rows earlier to help with memory
+-make sure joins are conditional to limit row combinations
+-match data types for query to columns to prevent conversion at run time
+
+Dynamic management views (DMVs) complement that by exposing runtime performance data across all queries in the database 
+
+expensive queries: CPU time, logical reads, and execution count
+
+check for:
+currently running queries
+missing indexes
+active sessions and waiting tasks
+-to get idea of query behavior and find most expensive queries
+then drill down to see why they're so expensive and make changes
+
+QUERY STORE AND QUERY PERFORMANCE INSIGHT
+
+Query Store captures query text, execution plans, and runtime statistics over time
+three internat stores:
+-Plan store: Persists execution plans for each query.
+-Runtime stats store: Records aggregate execution statistics (CPU time, duration, logical reads, row counts) for each plan
+-Wait stats store: Captures wait statistics per query and plan, categorized by wait type. 
+
+Regressed Queries view surfaces queries whose performance degraded after a plan change
+-show plan history as chart to compare points
+others:
+Top Resource Consuming Queries: Shows the queries with the highest resource usage for a chosen metric and time range
+Queries With High Variation: Surfaces queries whose performance fluctuates significantly
+Queries With Forced Plans: Lists all currently forced plans so you can review and manage them.
+Query Wait Statistics: Groups wait statistics by category and show which queries contribute to each wait type.
+
+plan forcing lets you force previous plan for furture executions
+
+Query Store hints let you attach query-level hints to shape execution behavior
+-do stuff like limiting threads, force recompiule, etc.
+-Query Store can capture wait statistics per query and not just server
+
+Query Performance Insight in Azure provides a graphical view of the same Query Store data.
+-Selecting an individual query opens a detail view with three charts: CPU consumption over time, duration over time, and execution count over time.
+
+IDENTIFY AND RESOLVE BLOCKS AND DEADLOCKS
+Blocking occurs when one session holds a lock on a resource and another session requests a conflicting lock on the same resource. The requesting session waits until the first session releases its lock.
+
+Resources can be rows, pages, or even entire tables. 
+Locks can be shared (for reads) or exclusive (for writes). 
+When a session requests a lock that conflicts with an existing lock, it becomes blocked until the first session commits or rolls back its transaction and releases its locks.
+
+In Azure SQL Database, Read Committed Snapshot Isolation (RCSI) is enabled by default, so read operations use row versioning instead of shared locks: reduces blocking a ton
+The session at the top of a blocking chain is called the head blocker. All other blocked sessions are waiting, directly or indirectly, for the head blocker to release its locks.
+-do a query, lookg for the session id that blocks others but not itself
+
+common blocking scenarios:
+-A long-running query that holds locks for an extended period.
+-A session executes a statement within an explicit transaction, then stops executing but never commits or rolls back.
+-session didn't fetch all result rows and holds others
+-session in rollback state
+-orphaned connection not cleanly closed
+
+terminate with KILL <session_id>
+
+A deadlock occurs when two or more transactions form a circular dependency. Each transaction holds a lock that the other needs, and neither can proceed. 
+database engine's deadlock monitor periodically checks for these cycles
+-rolls back least expensive transaction to fix these
+
+deadlock graph:
+The victim-list identifies which transaction was terminated. 
+The process-list shows each process involved, including the query text, isolation level, and lock mode. 
+The resource-list shows the locked resources and which process owns and waits on each one.
+
+prevent deadlocks:
+-access objects in consistent order
+-short transactions
+-use row-versioning
+-add indexes that scan fewer rows
+-Query Store plan forcing
+
+---------------------
+<IMPLEMENT CI/CD BY USING SQL DATABASE PROJECTS>
+---------------------
+SQL DATABASE PROJECTS
+You can use SQL Database Projects and CI/CD pipelines to improve database dev workflow, you can version control each object, test and automate builds/deployments before pushing to prod
+
+all objects are .sql file form that's declared and can be edited
+Build project to make .dacpac file
+* format of projects: original, SDK-style
+* build process: validates object references, checks T-SQL syntax
+* SqlPackage calculates differences between .dacpac and target DB then fills in with ALTER statements
+
+SOURCE CONTROL AND REFERENCE DATA
+Set up repos for DBs like other apps: gitignore files, branches, soure cntrol, etc.
+
+pre-deployment script: runs before deployment plan, for tasks like dropping constraints or migrating data
+post-deployment script: runs after deployment plan for populating data, seeding tables, etc.
+-project can have one of each
+
+SQLCMD :r can reference other files in build script
+To prevent data scripts from being compiled as schema objects, use Build Remove and None Include in the .sqlproj file.
+
+BRANCHES, PULL REQUESTS, CONFLICT RESOLUTION
+Do branches for new features, set a pull request to review, then merge back into main
+--connect pull requests to CI build pipelines to catch problems if needed during a merge to main
+
+check in pull request reviews: broken queries or sotred projecures, possible data loss or data migration, any needed post-deploy script changes
+
+merge concflicts: pull main changes into feature branch, edit file to include both changes, commit
+--always rebuild after resolving conflicts in .sql files
+
+SCHEMA DRIFT
+schema drift is when when live database diverges from SQL project due to manual or direct edits, hotfixes, etc.
+--if projkect doesn't know about these, it can get dropped from future builds
+--use schema comparison tools to see which changes go to project or database (save as .scmp files)
+
+SqlPackage /Action:Extract: automate drift detection, compares extracted project to repo
+SqlPackage /Action:DeployReport: see every CREATE/ALTER/DROP before making changes
+
+compare two .dacpac files: DacpacVerify
+
+CI/CD PIPELINES
+CI/CD pipeline automatically builds/deploys project on commit with same steps in order every time
+
+Build: compile SQL database project into .dacpac
+Deploy: Push .dacpac to target databases through dev, stage, production environments
+
+GitHub Actions: YAML workflow for pipeline in .github/workflows
+Azure DevOps: also uses YML for pipeline tasks in order
+
+Use environmental secrets or repo secrets stored in vaults then reference them in workflows
+--Azure DevOps has Azure Key Vault
+
+OpenID Connect: federal credential login without keeping secrets, need: Azure client ID, tenant ID, subscription ID
+
+environment protection rules can gate deployments until required reviews, delayed wait time, and which specific branches
+
+branch policies: minimum number of reviewers, build validation, resolve comments
+--in GitHub: branch projection rules
+--can require certain people for certain changes too
+
+TESTING STRATEGIES
+Run tests even after building
+
+layers of DB testing:
+- build validation: make sure it builds successfully
+- unit tests: individual procedures
+- integration tests: end-to-end
+
+unit test has:
+-pre-test, test, post-test cleanup
+
+test conditions validate what came back like row count, expected scalar values or schema, etc.
+
+also have tests that confirm the right failed input errors
+
+considerations for test databases:
+-isolate tests from production
+-reset to known state before each one
+-externalized connection strings into config files
+
+make sure to add test step after build and deployment in pipeline
+
+---------------------
+<INTEGRATE SQL SOLUTIONS WITH AZURE>
+---------------------
+CONFIGURATION FILES FOR DATA API BUILDER
+Typically apps go through REST/GraphQL APIs to do stuff with databases
+Data API Builder generates endpoints from DB schema and uses a single config file without having to make a backend API
+
+Data API Builder (DAB) config file exposes DB objects in secure, scalable API
+-authentication, authorization, caching support
+-generates based off DB schema
+
+File has four sections:
+$schema: reference JSON schema
+data-source: DB connection string and type ("mssql" for the Microsoft DBs)
+runtime: runtime behavior for settings/auth/cache (CORS too)
+entities: the DB objects to expose and how to configure
+
+DAB CLI lets you do DAB stuff from the command line
+
+Can make different dab-config.jsons for different environments: dab-config.development.json, as example
+
+ENTITIES FOR REST AND GRAPHQL
+DAB entities = map to DB objects and define how they appear
+1. name and source reference
+2. type of DB object
+3. mappings: rename columns and choose fields that appear
+
+Can configure: caching, pagination per entity, filtering based on entity fields
+
+For GraphQL: define relationships, map to DB foreign key relationships
+
+EXAMPLE: Entity named Product in REST endpoint = api/Product
+--can also customize the path
+
+Can also configure GraphQL endpoint too, unique GraphQL entity settings
+
+EXPOSE DATABASE OBJECTS, STORED PROCEDURES, AND VIEWS
+Can expose these as endpoints with DAB
+--views exposed as read-only entities
+--stored procedure entities can be called and return results or do other operations: make sure there's appropriate validation and authorization logic for procedure or row-level security
+--can build GraphQL queries through this, chain relationships
+
+DEPLOYMENT OPTIONS
+DAB can be ported from local to Azure production and there's Azure service integration, scalability, etc. for handling config and secrets and scale
+
+1. Azure Container Apps: handles infrastructure management automatically, auto scaling, etc., runs in container image
+2. Azure App Service: custom domains, monitoring, ties to Key Vault
+3. Azure Static Web Apps: good with static frontend and has built-in DB connections, simple deployment
+
+Can deploy DAB with Github actions by creating a YAML file for CI/CD pipelines
+
+AZURE MONITOR CONFIGURATIONS
+Azure Monitor integrates with DAB through application Insights and Log Analytics
+-monitoring is good for performance, resource checking, finding bottlenecks, etc.
+
+Application Insights captures detailed info from DAB instance
+Tracks:
+1. request telemetry: size, status, timing
+2. database telemetry: DB query execution time and status
+3. exception telemetry: unhandled errors with stack trace
+4. custom metrics: cache hit rates, connection pool usage
+
+Can use it to make custom Azure dashboards with queries
+
+Log Analytics logs all Azure resources; configure DAB deployment to send logs there
+
+Can set up alert rules for unusual API behavior patterns
+
+Distributed tracing tracks request flow from client to API to database
+
+Resource utilization metrics to track:
+-CPU percentage use
+-Memory percentage use
+-Network bytes in/out: can indicate unusual network patterns
+-Replica count
+
+EVENT-DRIVEN PATTERNS
+SQL Server/Azure SQL can capture and stream DB changes in real time
+DAB uses Azure Functions SQL trigger bindings to integrate with them
+
+Approaches for tracking data changes:
+1. Change Data Capture: records insert/update/delete operations and their before/after values to special tables
+2. Change Tracking: only tracks which rows changed without recording values
+3. Change Event Streaming: pushes changes to event streams without polling
+
+Change Data Capture can be done on specific table or database level
+
+Azure Functions SQL trigger binding use Change Tracking and invokes Azure Functions on the right kind of SQL trigger
+
+Change Event Streaming pushes changes to Azure Event Hubs
+-Message contains operation type, timestamp, full row data for insert/update, key values for delete
+
+Use CDC for complete audit and historical change records
+Use change tracking for real-time change response
+Use change event streaming for high transaction volumes and real-time analytics pipelines
